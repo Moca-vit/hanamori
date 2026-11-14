@@ -1,0 +1,143 @@
+/* 商品一覧・商品詳細 */
+.filter-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-xs);
+  margin-bottom: var(--space-lg);
+}
+.filter-tabs button {
+  padding: 0.5em 1.4em;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-pill);
+  font-size: var(--fs-sm);
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+.filter-tabs button[aria-pressed="true"] {
+  background: var(--color-button);
+  border-color: var(--color-button);
+  color: var(--color-white);
+}
+/* 香りで切り替えるタブ：香りの色の点つき（色は products.js から --dot に入る） */
+.filter-tabs--scent { margin-top: calc(var(--space-lg) * -0.6); }
+.filter-tabs--scent button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  padding-inline: 1.1em;
+  font-family: var(--font-accent);
+  font-size: var(--fs-base);
+  background: color-mix(in srgb, var(--color-white) 70%, transparent);
+}
+.filter-tabs__dot {
+  width: 0.75em;
+  height: 0.75em;
+  border-radius: 50%;
+  background: var(--dot);
+  box-shadow: 0 0 0 2px var(--color-white);
+}
+
+/* 香りを選ぶと、一覧の背景がその香りの色にゆっくりにじむ
+   --scent-tint を色として登録して、グラデーションの色を時間をかけて変える */
+@property --scent-tint {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: transparent;
+}
+.scent-wash {
+  position: relative;
+  isolation: isolate;
+  transition: --scent-tint 1.8s var(--ease-soft);
+}
+.scent-wash::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  /* 香りの基本色を薄めて、上から下へにじませる */
+  background: radial-gradient(130% 70% at 50% 0%,
+    color-mix(in srgb, var(--scent-tint) 40%, transparent) 0%,
+    color-mix(in srgb, var(--scent-tint) 16%, transparent) 50%,
+    transparent 100%);
+}
+@media (prefers-reduced-motion: reduce) {
+  .scent-wash { transition: none; }
+}
+
+.product-detail {
+  display: grid;
+  gap: var(--space-lg);
+  padding-top: calc(var(--header-height) + var(--space-lg));
+}
+.product-gallery__main {
+  aspect-ratio: 1;
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  background: var(--bg-product);
+}
+/* 商品ページの大きな画像は、ゆっくり漂い続ける（ファーストビューと同じ浮遊感） */
+.product-gallery__main img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  filter: var(--shadow-float);
+  animation: product-float 6s ease-in-out infinite;
+}
+/* 動かし続けるのは位置（transform）だけ。影を毎フレーム描き直すと、スマホで重くなるため */
+@keyframes product-float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(var(--float-lift)); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .product-gallery__main img { animation: none; }
+}
+.product-gallery { min-width: 0; }
+/* サムネイルが多い商品（お試しセット）でも、スマホで横にはみ出さず折り返す */
+.product-gallery__thumbs { display: flex; flex-wrap: wrap; gap: var(--space-xs); margin-top: var(--space-xs); }
+.product-gallery__thumbs button {
+  width: 72px;
+  aspect-ratio: 1;
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  opacity: 0.55;
+  outline-offset: 2px;
+  background: var(--bg-product);
+  transition: opacity 0.3s;
+}
+.product-gallery__thumbs button[aria-current="true"] { opacity: 1; outline: 1px solid var(--color-button); }
+.product-gallery__thumbs img { width: 100%; height: 100%; object-fit: cover; }
+
+.product-info__series { font-family: var(--font-accent); font-style: italic; font-size: var(--fs-xl); color: var(--color-main); }
+.product-info h1 { font-size: var(--fs-display); line-height: 1.4; }
+.product-info__notes { margin-top: var(--space-xs); font-size: var(--fs-sm); color: var(--color-text-soft); }
+.product-info__desc { margin-top: var(--space-md); }
+
+.variant-list { display: grid; gap: var(--space-xs); margin-top: var(--space-md); }
+.variant {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: var(--space-sm);
+  align-items: center;
+  padding: var(--space-md) var(--space-card-x);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-card);
+  cursor: pointer;
+  transition: border-color 0.3s, background-color 0.3s;
+}
+.variant:has(input:checked) { border-color: var(--color-button); background: rgba(201, 214, 197, 0.25); }
+.variant input { accent-color: var(--color-button); width: 18px; height: 18px; }
+.variant__name { font-size: var(--fs-sm); word-break: keep-all; overflow-wrap: anywhere; }
+.variant__name small { display: block; }
+.variant__price { font-size: var(--fs-sm); white-space: nowrap; }
+
+.purchase-row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-sm); margin-top: var(--space-md); }
+.purchase-row .button { flex: 1; min-width: 200px; }
+.share-row { display: flex; align-items: center; gap: var(--space-sm); margin-top: var(--space-md); font-size: var(--fs-xs); color: var(--color-text-soft); }
+
+.spec-block { margin-top: var(--space-lg); }
+.spec-block h2 { font-size: var(--fs-subheading); margin-bottom: var(--space-xs); }
+
+@media (min-width: 960px) {
+  .product-detail { grid-template-columns: 1.05fr 1fr; align-items: start; }
+  .product-gallery { position: sticky; top: calc(var(--header-height) + var(--space-md)); }
+}

@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000">
+  <rect width="800" height="1000" fill="#E8E5EF"/>
+  <defs><radialGradient id="glow" cx="30%" cy="10%" r="80%"><stop offset="0" stop-color="#FFFDF0" stop-opacity=".9"/><stop offset="1" stop-color="#FFFDF0" stop-opacity="0"/></radialGradient></defs>
+  <rect width="800" height="1000" fill="url(#glow)"/>
+  <ellipse cx="505" cy="473" rx="53" ry="153" transform="rotate(261 505 473)" fill="#A9A3BD" opacity=".18"/>
+  <ellipse cx="775" cy="719" rx="25" ry="73" transform="rotate(132 775 719)" fill="#A9A3BD" opacity=".18"/>
+  <ellipse cx="590" cy="562" rx="31" ry="90" transform="rotate(204 590 562)" fill="#A9A3BD" opacity=".18"/>
+  <ellipse cx="574" cy="442" rx="46" ry="132" transform="rotate(90 574 442)" fill="#A9A3BD" opacity=".18"/>
+  <ellipse cx="62" cy="449" rx="39" ry="110" transform="rotate(202 62 449)" fill="#A9A3BD" opacity=".18"/>
+  <ellipse cx="373" cy="575" rx="37" ry="106" transform="rotate(21 373 575)" fill="#A9A3BD" opacity=".18"/>
+  <ellipse cx="55" cy="344" rx="29" ry="84" transform="rotate(215 55 344)" fill="#A9A3BD" opacity=".18"/>
+  <ellipse cx="400.0" cy="860.0" rx="256.0" ry="30.0" fill="#4F6B57" opacity=".12"/>
+  
+  <g>
+    <rect x="268.0" y="520" width="264.0" height="74.8" rx="8" fill="#F6F2EA" stroke="#4F6B57" stroke-opacity=".25"/>
+    <rect x="250" y="588.0" width="300" height="272.0" rx="36.0" fill="#A9A3BD"/>
+    <rect x="250" y="588.0" width="60.0" height="272.0" rx="30.0" fill="#fff" opacity=".18"/>
+    <rect x="286.0" y="662.8" width="228.0" height="136.0" rx="6" fill="#FFFDF9" opacity=".92"/>
+    <text x="400.0" y="710.4" font-family="Georgia, serif" font-size="30.0" letter-spacing="3" fill="#4F6B57" text-anchor="middle">HANAMORI</text>
+    <text x="400.0" y="744.4" font-family="Georgia, serif" font-style="italic" font-size="24.0" fill="#3D3A36" text-anchor="middle">Moon Garden</text>
+    <text x="400.0" y="778.4" font-family="sans-serif" font-size="16.5" letter-spacing="2" fill="#3D3A36" opacity=".7" text-anchor="middle">TREATMENT</text>
+  </g>
+  <text x="776" y="976" font-family="sans-serif" font-size="14" fill="#4F6B57" opacity="0.55" text-anchor="end">仮画像</text>
+</svg>

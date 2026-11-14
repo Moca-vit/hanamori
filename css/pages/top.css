@@ -1,0 +1,403 @@
+/* ==========================================================
+   トップページ
+   ========================================================== */
+
+/* ---- ファーストビュー ----
+   演出の順番：①コピー → ②背景の画像 → ③額縁 → ④商品 → ⑤光の粒
+   各段階は body.is-loaded をきっかけに transition-delay で時間差をつける */
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: grid;
+  align-items: center;
+  padding: calc(var(--header-height) + var(--space-md)) var(--gutter) var(--space-lg);
+  overflow: hidden;
+  background: linear-gradient(180deg, #EEF1E8 0%, var(--color-sub) 100%);
+}
+.hero__bg {
+  position: absolute;
+  inset: -6% -6% 0;
+  opacity: 0;
+  transform: scale(1.08);
+  transition: opacity 2s var(--ease-soft) 0.9s, transform 3s var(--ease-soft) 0.9s;
+}
+.hero__bg picture { display: block; width: 100%; height: 100%; }
+.hero__bg img { width: 100%; height: 100%; object-fit: cover; }
+.hero__bg::after {
+  content: "";
+  position: absolute; inset: 0;
+  /* 写真の上にアイボリーを薄く重ね、見出しと本文を読みやすくする */
+  background:
+    linear-gradient(90deg, rgba(246, 242, 234, 0.6) 0%, rgba(246, 242, 234, 0) 60%),
+    linear-gradient(180deg, rgba(246, 242, 234, 0.6) 0%, rgba(246, 242, 234, 0.5) 50%, var(--color-sub) 100%);
+}
+
+.hero__inner {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  gap: var(--space-lg);
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  align-items: center;
+}
+
+.hero__copy { text-align: center; }
+/* キャッチコピーは横書きで大きく。添える一文は小さく控えめにして、大小の差で見せる */
+.hero__catch {
+  font-size: var(--fs-display);   /* 大見出し（全ページ共通の大きさ） */
+  font-weight: 400;
+  line-height: 1.6;
+  letter-spacing: 0.14em;
+}
+/* 1文字ずつ ふわっと（JS で span に分割） */
+.hero__catch .char {
+  display: inline-block;
+  opacity: 0;
+  filter: blur(8px);
+  transform: translateY(0.3em);
+  transition: opacity 1.4s var(--ease-soft), filter 1.4s var(--ease-soft), transform 1.4s var(--ease-soft);
+  transition-delay: calc(var(--i) * 0.07s + 0.2s);
+}
+.hero__en {
+  margin-top: var(--space-sm);
+  font-size: var(--fs-lg);
+  color: var(--color-button);
+  opacity: 0;
+  transition: opacity 1.6s var(--ease-soft) 1.4s;
+}
+/* キャッチと添える一文は1つのまとまりなので近く、ボタンは次の行動なので離す */
+.hero__lead {
+  margin-top: var(--space-sm);
+  font-size: var(--fs-sm);
+  letter-spacing: 0.08em;
+  color: var(--color-text-soft);
+  opacity: 0;
+  transition: opacity 1.6s var(--ease-soft) 1.7s;
+}
+/* 改行は「、」の後だけにする（「を。」「と。」だけが次の行に残らないように） */
+.hero__phrase, .phrase { display: inline-block; }
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-sm);
+  margin-top: calc(var(--space-lg) + var(--space-xs));
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 1.2s var(--ease-soft) 2.6s, transform 1.2s var(--ease-soft) 2.6s;
+}
+
+/* 商品：窓枠を置かず、森の上に直接浮かべる */
+.hero__visual {
+  position: relative;
+  width: min(78vw, 420px);
+  margin-inline: auto;
+  aspect-ratio: 4 / 5;
+}
+/* 商品の後ろの光のたまり。足もとを明るくして影を読ませ、商品を森から浮き立たせる */
+.hero__visual::before {
+  content: "";
+  position: absolute;
+  inset: -6% -24% -10%;
+  background:
+    radial-gradient(ellipse 46% 22% at 50% 84%, color-mix(in srgb, var(--color-white) 90%, transparent), transparent),
+    radial-gradient(ellipse 50% 48% at 50% 58%, color-mix(in srgb, var(--color-white) 55%, transparent), transparent);
+  opacity: 0;
+  transition: opacity 2s var(--ease-soft) 0.9s;
+}
+/* 下から、ぼかしの中をせり上がる。
+   奥行きの動き（animation.js が --dx --dy に入れる）は transform と別の translate で重ねる */
+.hero__product {
+  position: absolute;
+  opacity: 0;
+  filter: blur(8px);
+  transform: translateY(80px) scale(0.92);
+  translate: var(--dx, 0px) var(--dy, 0px);
+  transition: opacity 1.6s var(--ease-soft), filter 1.8s var(--ease-soft), transform 2.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+/* 商品はゆっくり上下に漂う。高く浮くほど影が遠く・大きく・薄くなる
+   （浮き方と影は variables.css の共通ルール --float-lift / --shadow-float） */
+.hero__product img {
+  height: 100%;
+  width: auto;
+  filter: var(--shadow-float);
+  animation: hero-float 6s ease-in-out infinite;
+}
+/* 動かし続けるのは位置（transform）だけ。影を毎フレーム描き直すと、スマホで重くなるため */
+@keyframes hero-float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(var(--float-lift)); }
+}
+
+/* 湯気のようなもや：足もとを、ごく薄いもやがゆっくり横に流れる。
+   奥のもやは商品の後ろ、手前のもやは商品の足もとにかかる */
+.hero__mist {
+  position: absolute;
+  left: -30%;
+  right: -30%;
+  bottom: 0;
+  height: 42%;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 3s var(--ease-soft) 1.2s;
+}
+.hero__mist--front { z-index: 3; height: 22%; }
+.hero__mist span {
+  position: absolute;
+  bottom: -10%;
+  width: 55%;
+  height: 100%;
+  border-radius: 50%;
+  background: radial-gradient(closest-side, color-mix(in srgb, var(--color-white) 70%, transparent), transparent);
+  animation: hero-mist 34s ease-in-out infinite alternate;
+}
+.hero__mist span:nth-child(1) { left: 0; }
+.hero__mist span:nth-child(2) { left: 30%; bottom: 5%; height: 80%; animation-duration: 42s; animation-delay: -14s; }
+.hero__mist span:nth-child(3) { left: 55%; animation-duration: 38s; animation-delay: -26s; }
+.hero__mist--front span { opacity: 0.55; }
+@keyframes hero-mist {
+  from { transform: translateX(-12%) scaleY(0.9); }
+  to   { transform: translateX(12%) scaleY(1.1); }
+}
+.is-loaded .hero__mist { opacity: 1; }
+/* シャンプーを中央の奥、入浴剤を右の奥、トリートメントを左の手前に置く。
+   現れる順はシャンプー → トリートメント → 入浴剤。揺れの始まりもずらす */
+.hero__product--1 { left: 5%; bottom: 4%; height: 34%; transition-delay: 1.65s; z-index: 2; }
+.hero__product--2 { left: 30%; bottom: 9%; height: 76%; transition-delay: 1.3s; z-index: 1; }
+.hero__product--3 { right: 9%; bottom: 9%; height: 46%; transition-delay: 1.95s; z-index: 0; }
+.hero__product--1 img { animation-delay: -2s; }
+.hero__product--3 img { animation-delay: -4s; }
+/* 背景の森は、奥行きの動きでわずかに反対へ */
+.hero__bg { translate: var(--bgx, 0px) var(--bgy, 0px); }
+
+.hero__scroll {
+  position: absolute;
+  left: 50%; bottom: var(--space-md);
+  z-index: 2;
+  transform: translateX(-50%);
+  font-family: var(--font-accent);
+  font-size: var(--fs-xs);
+  letter-spacing: 0.3em;
+  color: var(--color-button);
+  opacity: 0;
+  transition: opacity 1s 3s;
+}
+.hero__scroll::after {
+  content: "";
+  display: block;
+  width: 1px; height: 40px;
+  margin: 8px auto 0;
+  background: currentColor;
+  animation: scroll-line 2.4s var(--ease-soft) infinite;
+  transform-origin: top;
+}
+@keyframes scroll-line {
+  0% { transform: scaleY(0); } 50% { transform: scaleY(1); transform-origin: top; }
+  51% { transform-origin: bottom; } 100% { transform: scaleY(0); transform-origin: bottom; }
+}
+
+/* スマートフォンでは商品写真が画面の下まで来て SCROLL と重なるので、
+   重ねずに商品の下へ並べる */
+@media (max-width: 959px) {
+  .hero__scroll {
+    position: relative;
+    left: auto;
+    bottom: auto;
+    transform: none;
+    justify-self: center;
+    margin-top: var(--space-md);
+  }
+}
+
+/* 読み込み完了で一斉に開始 */
+.is-loaded .hero__bg { opacity: 1; transform: scale(1); }
+.is-loaded .hero__catch .char { opacity: 1; filter: blur(0); transform: none; }
+.is-loaded .hero__en,
+.is-loaded .hero__lead,
+.is-loaded .hero__scroll { opacity: 1; }
+.is-loaded .hero__actions { opacity: 1; transform: none; }
+.is-loaded .hero__visual::before { opacity: 1; }
+.is-loaded .hero__product { opacity: 1; filter: none; transform: none; }
+
+@media (min-width: 960px) {
+  /* PC：左に横書きのコピー、右に商品を大きく。余白を広くとって静かに見せる */
+  .hero__inner { grid-template-columns: 1fr 1.1fr; gap: var(--space-xl); }
+  /* コピーの左端は、ヘッダーのロゴの左端と同じ線に */
+  .hero__copy { text-align: left; }
+  .hero__catch { white-space: nowrap; }
+  .hero__lead { margin-top: var(--space-md); }
+  .hero__actions { justify-content: flex-start; }
+  .hero__actions .button { padding-inline: 1.8em; }
+  .hero__visual { width: min(40vw, 540px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__bg, .hero__catch .char, .hero__en, .hero__lead, .hero__actions,
+  .hero__visual::before, .hero__product, .hero__scroll { opacity: 1; transform: none; filter: none; transition: none; }
+  .hero__product, .hero__bg { translate: none; }
+  .hero__product img, .hero__mist span { animation: none; }
+  .hero__mist { opacity: 1; transition: none; }
+}
+
+/* ---- コンセプト ---- */
+.top-concept { position: relative; overflow: hidden; }
+.top-concept__inner { display: grid; gap: var(--space-lg); align-items: center; }
+/* ---- 文字の大きさは3段階：見出し（とても大きく）／本文（中くらい）／補足（小さく）----
+   大きさの差（ジャンプ率）をはっきりつけて、見出しだけで内容がつかめるようにする */
+/* 大見出し（.section-title h2 は grid.css で共通） */
+.top-cta h2,
+.top-concept__text h2 {
+  font-size: var(--fs-display);
+  line-height: 1.5;
+  letter-spacing: 0.08em;
+}
+.top-concept__text h2 { margin-bottom: var(--space-md); }
+/* 本文：中くらい */
+.section-title p,
+.top-concept__text p,
+.top-cta__action p,
+.feature-card p {
+  font-size: var(--fs-body);
+  line-height: 2;
+  letter-spacing: 0.06em;
+}
+.top-concept__text p { color: var(--color-text-soft); }
+/* 補足：小さく、淡く（英字ラベル・注記・問い合わせの案内） */
+.section-title .en,
+.top-concept__text .en,
+.top-cta .en,
+.top-note,
+.top-cta__action .top-cta__contact {
+  font-size: var(--fs-xs) !important;
+  letter-spacing: 0.2em;
+  color: var(--color-text-soft);
+}
+.section-title .en, .top-concept__text .en, .top-cta .en { color: var(--color-button) !important; }
+/* 「詳しく見る」などの文字リンクは、注文ボタンより目立たないよう小さく */
+main .text-link { font-size: var(--fs-xs); letter-spacing: 0.16em; }
+/* カードの見出しは本文より一段大きく */
+.top-concept__text .en,
+.top-cta__action .en { display: block; margin-bottom: var(--space-xs); }
+/* スマホでは前後のセクション（中央そろえ）と同じ線にそろえる */
+@media (max-width: 959px) { .top-concept__text { text-align: center; } }
+.top-concept__images { position: relative; min-height: 420px; }
+.parallax-img {
+  position: absolute;
+  overflow: hidden;
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-soft);
+}
+.parallax-img img { width: 100%; height: 115%; object-fit: cover; will-change: transform; }
+.parallax-img--a { top: 0; left: 0; width: 62%; aspect-ratio: 3 / 4; }
+.parallax-img--b { right: 0; bottom: 0; width: 50%; aspect-ratio: 1; border-radius: 50%; }
+@media (min-width: 960px) {
+  .top-concept__inner { grid-template-columns: 1fr 1fr; }
+  .top-concept__images { min-height: 560px; }
+}
+
+/* ---- 香りの選び方 ---- */
+.scent-list { display: grid; gap: var(--space-sm); }
+.scent-item {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: var(--space-sm);
+  align-items: center;
+  padding: var(--space-md) var(--space-card-x);
+  background: var(--color-white);
+  border: 1px solid var(--color-line-soft);
+  border-radius: var(--radius-card);
+  transition: transform 0.5s var(--ease-soft), box-shadow 0.5s var(--ease-soft);
+}
+.scent-item:hover { transform: translateY(-4px); box-shadow: var(--shadow-soft); }
+.scent-item__dot { width: 72px; height: 72px; border-radius: 50%; }
+.scent-item h3 { font-family: var(--font-accent); font-style: italic; font-size: var(--fs-subheading); }
+.scent-item p { font-size: var(--fs-xs); color: var(--color-text-soft); line-height: 1.6; word-break: keep-all; overflow-wrap: anywhere; }
+@media (min-width: 640px) { .scent-list { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 960px) {
+  .scent-list { grid-template-columns: repeat(5, 1fr); }
+  .scent-item { grid-template-columns: 1fr; text-align: center; padding: var(--space-card-y) var(--space-sm); }
+  .scent-item__dot { margin-inline: auto; width: 96px; height: 96px; }
+}
+
+/* ---- バスタイムの過ごし方 ---- */
+.ritual { display: grid; gap: var(--space-md); counter-reset: ritual; }
+@media (min-width: 768px) { .ritual { grid-template-columns: repeat(3, 1fr); } }
+
+/* ---- 最後の購入導線 ---- */
+.top-cta {
+  position: relative;
+  padding-block: var(--space-section);
+  text-align: center;
+  overflow: hidden;
+  background: linear-gradient(180deg, var(--color-sub) 0%, #DFE7DA 100%);
+}
+/* Instagram と購入ボタンを1つのセクションにまとめる。
+   写真で雰囲気を味わってから、最後にボタン1つへ集中させる */
+.top-cta__sns { position: relative; margin-bottom: var(--space-section); }
+.top-cta__action { position: relative; }
+.top-cta__action p { margin: var(--space-sm) 0 var(--space-xl); color: var(--color-text-soft); word-break: keep-all; overflow-wrap: anywhere; }
+/* 受け皿（フォロー）と問い合わせは、注文ボタンから離して控えめに */
+.top-cta__action .top-cta__follow { margin: var(--space-lg) 0 0; }
+.top-cta__action .top-cta__contact { margin: var(--space-sm) 0 0; }
+.hero__actions { align-items: center; column-gap: var(--space-md); }
+.top-cta__contact a { color: inherit; text-decoration: underline; text-underline-offset: 0.3em; }
+
+/* ---- 成分とこだわり／お届けについて（3つのポイント） ---- */
+.top-points { display: grid; gap: var(--space-md); }
+@media (min-width: 768px) { .top-points { grid-template-columns: repeat(3, 1fr); } }
+/* 2項目だけのとき（お届けについて）は、中央に2列で */
+@media (min-width: 768px) { .top-points--2 { grid-template-columns: repeat(2, 1fr); max-width: 760px; margin-inline: auto; } }
+/* 注記はカードの補足なので、カードのすぐ近くに */
+.top-note {
+  margin-top: var(--space-sm);
+  text-align: center;
+  font-size: var(--fs-xs);
+  color: var(--color-text-soft);
+}
+
+/* ---- 料金 ---- */
+.price-list {
+  list-style: none;
+  padding: var(--space-xs) var(--space-card-x);
+  margin: 0;
+  background: var(--color-white);
+  border: 1px solid var(--color-line-soft);
+  border-radius: var(--radius-card);
+}
+.price-list__item {
+  display: flex;
+  flex-wrap: nowrap;   /* 商品名と価格を必ず同じ行に（価格だけ下に落ちない） */
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.25em var(--space-sm);
+  padding-block: var(--space-md);
+  border-bottom: 1px solid var(--color-line-soft);
+}
+.price-list__item:last-child { border-bottom: 0; }
+.price-list__name { flex: 1; min-width: 0; font-family: var(--font-heading); word-break: keep-all; overflow-wrap: anywhere; }
+.price-list__name small,
+.price-list__price small {
+  display: block;
+  font-family: var(--font-body);
+  font-size: var(--fs-xs);
+  color: var(--color-text-soft);
+}
+.price-list__price { flex: none; margin-left: auto; text-align: right; font-size: var(--fs-lg); white-space: nowrap; }
+.price-list__price small { display: inline; }
+/* お試し1包は、はじめの一歩として少し目立たせる */
+.price-list__item--first .price-list__name::before {
+  content: "はじめての方に";
+  display: block;
+  width: fit-content;
+  margin-bottom: 0.3em;
+  padding: 0.1em 0.8em;
+  border: 1px solid var(--color-main);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-body);
+  font-size: 0.6875rem;
+  color: var(--color-button);
+}
+.price-list__item--first .price-list__price { color: var(--color-button); font-size: var(--fs-xl); }

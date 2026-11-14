@@ -1,0 +1,22 @@
+/* ==========================================================
+   HANAMORI style.css
+   全ページ共通の読み込みファイル。
+   新しい部品を作ったら components/ に追加し、ここで読み込む。
+   ページ固有の CSS は各 HTML で pages/ のファイルを追加で読み込む。
+   ※本番公開時はビルドツールで1ファイルにまとめると読み込みがさらに速くなる
+   ========================================================== */
+@import url("base/variables.css");
+@import url("base/reset.css");
+@import url("base/typography.css");
+
+@import url("layout/grid.css");
+@import url("layout/header.css");
+@import url("layout/footer.css");
+
+@import url("components/button.css");
+@import url("components/sparkle.css");
+@import url("components/card.css");
+@import url("components/marquee.css");
+@import url("components/form.css");
+@import url("components/misc.css");
+@import url("components/insta-feed.css");

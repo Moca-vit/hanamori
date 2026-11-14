@@ -1,0 +1,75 @@
+.container {
+  width: 100%;
+  max-width: calc(var(--container) + var(--gutter) * 2);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+.container--narrow { max-width: calc(var(--container-narrow) + var(--gutter) * 2); }
+
+.section { padding-block: var(--space-section); }
+.section--tint { background: var(--color-sub-deep); }
+.section--white { background: var(--color-white); }
+
+/* 見出しのまとまりと中身の間は、中身どうしの間（40px）より広くとって、別のまとまりだと分かるように */
+.section-title { text-align: center; margin-bottom: var(--space-title); }
+.section-title .en {
+  display: block;
+  margin-bottom: var(--space-xs);   /* 英字ラベルと見出しは1つのまとまり。どのセクションも同じ間隔に */
+  font-size: var(--fs-lg);
+  color: var(--color-button);       /* 小さい文字なので、背景に溶けない濃さに（コントラスト約5:1） */
+}
+.section-title h2 { font-size: var(--fs-display); line-height: 1.5; letter-spacing: 0.08em; }
+/* 中身のあとの「詳しく見る」などのリンク・ボタン。どのセクションも同じ間隔で中央に */
+.section-more { margin-top: var(--space-more); text-align: center; }
+.section-more--start { text-align: inherit; }
+/* 主役のボタンのすぐ下に添える、控えめなリンク（「商品を見る」「お問い合わせ」など） */
+.section-more--sub { margin-top: var(--space-sm); }
+.section-title p { margin-top: var(--space-sm); color: var(--color-text-soft); font-size: var(--fs-sm); }
+
+.grid { display: grid; gap: var(--space-md); }
+@media (min-width: 640px) {
+  .grid--2 { grid-template-columns: repeat(2, 1fr); }
+  .grid--3 { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 960px) {
+  .grid--3 { grid-template-columns: repeat(3, 1fr); }
+}
+
+.stack > * + * { margin-top: var(--space-md); }
+
+/* 下層ページの見出し帯 */
+.page-hero {
+  position: relative;
+  padding: calc(var(--header-height) + var(--space-xl)) var(--gutter) var(--space-lg);
+  text-align: center;
+  background:
+    radial-gradient(ellipse at 20% 0%, rgba(201, 214, 197, 0.7), transparent 60%),
+    radial-gradient(ellipse at 90% 30%, rgba(201, 179, 126, 0.18), transparent 50%),
+    var(--color-sub);
+  overflow: hidden;
+}
+.page-hero .en { display: block; font-size: var(--fs-xl); color: var(--color-main); }
+.page-hero h1 { font-size: var(--fs-display); line-height: 1.5; }
+.page-hero p { margin-top: var(--space-sm); color: var(--color-text-soft); }
+
+.breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5em;
+  margin-top: var(--space-md);
+  font-size: var(--fs-xs);
+  color: var(--color-text-soft);
+}
+.breadcrumb li + li::before { content: "/"; margin-right: 0.5em; opacity: 0.5; }
+.breadcrumb a { text-decoration: underline; text-underline-offset: 3px; }
+
+.prose h2 {
+  font-size: var(--fs-heading);
+  margin: var(--space-lg) 0 var(--space-sm);
+  padding-bottom: var(--space-xs);
+  border-bottom: 1px solid var(--color-line);
+}
+.prose h3 { font-size: var(--fs-subheading); margin: var(--space-md) 0 var(--space-xs); }
+.prose ul, .prose ol { padding-left: 1.4em; margin-top: var(--space-xs); }
+.prose p { margin-top: var(--space-xs); }

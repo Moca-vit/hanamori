@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>お客様情報の入力｜HANAMORI 花と森のバスケア</title>
+  <meta name="description" content="HANAMORI ご注文手続き">
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#F6F2EA">
+  <!-- OGP / X カード（SNS で共有されたときの表示） -->
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="HANAMORI">
+  <meta property="og:title" content="お客様情報の入力｜HANAMORI 花と森のバスケア">
+  <meta property="og:description" content="HANAMORI ご注文手続き">
+  <meta property="og:url" content="https://example.com/hanamori/html/checkout.html">
+  <meta property="og:image" content="https://example.com/hanamori/assets/images/og-image.png">
+  <meta property="og:locale" content="ja_JP">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@hanamori_demo">
+  <link rel="icon" href="../assets/icons/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;1,400&family=Shippori+Mincho:wght@400;500&family=Zen+Kaku+Gothic+New:wght@400;500&display=swap">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/pages/cart.css">
+  <script src="../js/data/site.js" defer></script>
+  <script src="../js/data/products.js" defer></script>
+  <script src="../js/modules/utils.js" defer></script>
+  <script src="../js/modules/header.js" defer></script>
+  <script src="../js/modules/product.js" defer></script>
+  <script src="../js/modules/cart.js" defer></script>
+  <script src="../js/modules/marquee.js" defer></script>
+  <script src="../js/modules/form.js" defer></script>
+  <script src="../js/modules/sparkle.js" defer></script>
+  <script src="../js/modules/animation.js" defer></script>
+  <script src="../js/main.js" defer></script>
+</head>
+<body data-root="../">
+  <a class="visually-hidden" href="#main">本文へ移動</a>
+  <div data-include="header"></div>
+  <section class="page-hero">
+    <div class="light-particles" data-particles="10" aria-hidden="true"></div>
+    <span class="en">Checkout</span>
+    <h1>お客様情報の入力</h1>
+  </section>
+  <main id="main">
+    <section class="section">
+      <div class="container">
+        <ol class="steps" role="list"><li>カート</li><li aria-current="step">お客様情報</li><li>完了</li></ol>
+        <div class="cart-layout">
+          <form class="form" data-validate data-form-type="checkout">
+            <p class="demo-notice">デモのため、入力内容は送信・保存されません。架空の情報でお試しください。</p>
+            <div class="form-row">
+              <div class="form-field"><label for="name">お名前<span class="required">必須</span></label><input id="name" name="name" type="text" required autocomplete="name" placeholder="花森 みどり"><p class="form-error" aria-live="polite"></p></div>
+              <div class="form-field"><label for="kana">フリガナ<span class="required">必須</span></label><input id="kana" name="kana" type="text" required pattern="[ァ-ヶー　 ]+" data-message="全角カタカナで入力してください" placeholder="ハナモリ ミドリ"><p class="form-error" aria-live="polite"></p></div>
+            </div>
+            <div class="form-row">
+              <div class="form-field"><label for="email">メールアドレス<span class="required">必須</span></label><input id="email" name="email" type="email" required autocomplete="email" placeholder="example@example.com"><p class="form-error" aria-live="polite"></p></div>
+              <div class="form-field"><label for="tel">電話番号<span class="required">必須</span></label><input id="tel" name="tel" type="tel" required autocomplete="tel" pattern="[0-9\-]{{10,13}}" data-message="半角数字で入力してください" placeholder="090-0000-0000"><p class="form-error" aria-live="polite"></p></div>
+            </div>
+            <div class="form-row">
+              <div class="form-field"><label for="zip">郵便番号<span class="required">必須</span></label><input id="zip" name="zip" type="text" required autocomplete="postal-code" pattern="[0-9]{{3}}-?[0-9]{{4}}" data-message="例：123-4567" placeholder="123-4567"><p class="form-error" aria-live="polite"></p></div>
+              <div class="form-field"><label for="pref">都道府県<span class="required">必須</span></label><select id="pref" name="pref" required><option value="">選択してください</option><option>東京都</option><option>神奈川県</option><option>大阪府</option><option>北海道</option><option>その他</option></select><p class="form-error" aria-live="polite"></p></div>
+            </div>
+            <div class="form-field"><label for="address">住所<span class="required">必須</span></label><input id="address" name="address" type="text" required autocomplete="street-address" placeholder="〇〇市〇〇町1-2-3"><p class="form-error" aria-live="polite"></p></div>
+            <div class="form-field"><label for="payment">お支払い方法<span class="required">必須</span></label><select id="payment" name="payment" required><option value="">選択してください</option><option>クレジットカード（デモ）</option><option>代金引換（デモ）</option></select><p class="form-error" aria-live="polite"></p></div>
+            <button class="button button--block" type="submit">注文を確定する（デモ）</button>
+            <a class="text-link" href="cart.html">カートに戻る</a>
+          </form>
+          <div data-order-summary></div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <div data-include="footer"></div>
+</body>
+</html>

@@ -1,0 +1,102 @@
+.button {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6em;
+  min-height: 52px;
+  padding: 0.9em 2.4em;
+  border-radius: var(--radius-pill);
+  background: var(--color-accent);
+  color: var(--color-white);
+  font-size: var(--fs-sm);
+  letter-spacing: 0.12em;
+  overflow: hidden;
+  isolation: isolate;
+  transition: background-color 0.4s var(--ease-soft), transform 0.4s var(--ease-soft);
+}
+.button:hover { background: var(--color-accent-hover); }
+.button:active { transform: scale(0.98); }
+.button[disabled] { opacity: 0.5; pointer-events: none; }
+
+/* 枠線ボタンは2番目の選択肢。写真の上でも文字が読めるよう、半透明のアイボリーを敷く */
+.button--ghost {
+  background: var(--color-glass);
+  backdrop-filter: blur(4px);
+  color: var(--color-button);
+  border: 1px solid var(--color-button);
+}
+/* どのボタンも、マウスを乗せると「自分の色が少し深まる」だけ。強い色は購入ボタン（テラコッタ）に任せる */
+/* 背景と一緒に文字と枠線も一段深めて、淡いセージの上でも読みやすく（コントラスト 5.2:1） */
+.button--ghost:hover {
+  background: var(--color-main-light);
+  color: var(--color-button-hover);
+  border-color: var(--color-button-hover);
+}
+.button--block { display: flex; width: 100%; }
+
+/* ボタンのルール（全ページ共通）
+   - 塗り（.button）     ：そのページの主役の行動（購入・送信など）。色はテラコッタ1色だけ
+   - 枠線（.button--ghost）：それ以外の行動
+   - 文字リンク（.text-link）：「詳しく見る」などの補足の移動
+   注文ボタン（.button--order）は塗りボタンを大きくしたもの。色は同じで、大きさと影で主役にする */
+.button--order {
+  min-height: 76px;
+  min-width: min(100%, 340px);
+  padding: 1.1em 3.6em;
+  background: var(--color-accent);
+  font-size: var(--fs-lg);
+  line-height: 1.4;
+  letter-spacing: 0.2em;
+  box-shadow: 0 16px 32px color-mix(in srgb, var(--color-accent) 32%, transparent);
+  transition: background-color 0.4s var(--ease-soft), transform 0.4s var(--ease-soft), box-shadow 0.4s var(--ease-soft);
+}
+.button--order:hover {
+  background: var(--color-accent-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 22px 40px color-mix(in srgb, var(--color-accent) 38%, transparent);
+}
+/* 価格は2行目に小さく（「今夜の香りを試す →」／「（1包 ¥330）」） */
+.button--order { flex-wrap: wrap; row-gap: 0.1em; }
+/* 価格つきのボタン：価格は2行目に小さく（注文ボタン・ほかのお試しボタン共通） */
+.button:has(> .button__price) { flex-wrap: wrap; row-gap: 0.1em; padding-block: 0.7em; line-height: 1.4; }
+.button__price {
+  text-align: center;
+  order: 3;
+  flex-basis: 100%;
+  font-size: var(--fs-xs);
+  letter-spacing: 0.12em;
+  opacity: 0.85;
+}
+/* 矢印は文字の高さの中央に */
+.button--order .button__arrow { display: inline-block; line-height: 1; transform: translateY(-0.08em); transition: transform 0.4s var(--ease-soft); }
+.button--order:hover .button__arrow { transform: translate(4px, -0.08em); }
+/* PC では見出しが大きくなるので、ボタンも一段大きく */
+@media (min-width: 960px) {
+  .button--order { min-height: 88px; min-width: 420px; padding: 0.8em 3em; font-size: var(--fs-xl); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .button--order:hover { transform: none; }
+}
+.button--small { min-height: 40px; padding: 0.5em 1.4em; font-size: var(--fs-xs); }
+
+/* ホバー時のやわらかな光の帯 */
+.button::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(110deg, transparent 30%, rgba(255, 253, 249, 0.35) 50%, transparent 70%);
+  transform: translateX(-120%);
+}
+.button:hover::after { transform: translateX(120%); transition: transform 0.9s var(--ease-soft); }
+
+.text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  color: var(--color-button);
+  font-size: var(--fs-sm);
+  border-bottom: 1px solid currentColor;
+  padding-bottom: 2px;
+}

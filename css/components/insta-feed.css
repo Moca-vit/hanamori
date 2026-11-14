@@ -1,0 +1,132 @@
+/* ==========================================================
+   Instagram 風の投稿一覧（プロフィール画面の見た目）
+   本物の埋め込みは重いので使わず、画像とキャプションで再現する
+   ========================================================== */
+.insta-feed {
+  max-width: 720px;
+  margin-inline: auto;
+  background: var(--color-white);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  box-shadow: var(--shadow-soft);
+  text-align: left;
+}
+
+/* アカウントの帯 */
+.insta-feed__profile {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.875rem var(--space-sm);
+}
+.insta-feed__avatar {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 44px; height: 44px;
+  padding: 2px;
+  border-radius: 50%;
+  /* 新しい投稿があることを示すリング */
+  background: conic-gradient(var(--color-gold), var(--color-main), var(--color-button), var(--color-gold));
+}
+.insta-feed__avatar img {
+  width: 100%; height: 100%;
+  border: 2px solid var(--color-white);
+  border-radius: 50%;
+}
+.insta-feed__account {
+  flex: 1;
+  min-width: 0;
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  line-height: 1.4;
+}
+/* 長いアカウント名は本物と同じく1行で「…」にする */
+.insta-feed__account > * {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.insta-feed__account small {
+  font-size: var(--fs-xs);
+  font-weight: 400;
+  color: var(--color-text-soft);
+}
+.insta-feed__follow {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  padding: 0.45em 1em;
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--color-button);
+  font-size: var(--fs-xs);
+  transition: background-color 0.3s, border-color 0.3s;
+}
+/* 塗りのボタンは注文ボタンだけにするため、フォローは控えめな枠線に */
+.insta-feed__follow:hover { background: var(--color-sub); border-color: var(--color-main); }
+.insta-feed__follow svg { width: 15px; height: 15px; }
+
+/* 3列の正方形グリッド（Instagram と同じく角は丸めず、すき間は細く） */
+.insta-feed__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.insta-feed__post {
+  position: relative;
+  display: block;
+  aspect-ratio: 1;
+  overflow: hidden;
+  background: var(--color-sub-deep);
+}
+.insta-feed__post img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 1.2s var(--ease-soft);
+}
+/* 複数枚・リールの印 */
+.insta-feed__type {
+  position: absolute;
+  top: 6px; right: 6px;
+  width: 18px; height: 18px;
+  color: var(--color-white);
+  filter: drop-shadow(0 1px 2px rgba(61, 58, 54, 0.45));
+}
+/* マウスを乗せるとキャプションがふわっと浮かぶ（タッチ端末では出さない） */
+.insta-feed__caption {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: var(--space-sm);
+  background: rgba(61, 58, 54, 0.45);
+  color: var(--color-white);
+  font-size: var(--fs-xs);
+  line-height: 1.7;
+  text-align: center;
+  opacity: 0;
+  transition: opacity 0.6s var(--ease-soft);
+}
+@media (hover: hover) {
+  .insta-feed__post:hover img,
+  .insta-feed__post:focus-visible img { transform: scale(1.04); }
+  .insta-feed__post:hover .insta-feed__caption,
+  .insta-feed__post:focus-visible .insta-feed__caption { opacity: 1; }
+}
+@media (hover: none) { .insta-feed__caption { display: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .insta-feed__post img, .insta-feed__caption { transition: none; }
+}
+
+.insta-feed__note {
+  padding: 0.6rem var(--space-sm) 0.75rem;
+  font-size: 0.6875rem;
+  color: var(--color-text-soft);
+}

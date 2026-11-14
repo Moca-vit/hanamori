@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" width="800" height="1000">
+  <rect width="800" height="1000" fill="#DCE0D5"/>
+  <defs><radialGradient id="glow" cx="30%" cy="10%" r="80%"><stop offset="0" stop-color="#FFFDF0" stop-opacity=".9"/><stop offset="1" stop-color="#FFFDF0" stop-opacity="0"/></radialGradient></defs>
+  <rect width="800" height="1000" fill="url(#glow)"/>
+  <ellipse cx="320" cy="555" rx="50" ry="143" transform="rotate(159 320 555)" fill="#6F7F68" opacity=".18"/>
+  <ellipse cx="759" cy="920" rx="22" ry="62" transform="rotate(6 759 920)" fill="#6F7F68" opacity=".18"/>
+  <ellipse cx="798" cy="448" rx="26" ry="74" transform="rotate(353 798 448)" fill="#6F7F68" opacity=".18"/>
+  <ellipse cx="160" cy="474" rx="41" ry="118" transform="rotate(260 160 474)" fill="#6F7F68" opacity=".18"/>
+  <ellipse cx="186" cy="657" rx="44" ry="125" transform="rotate(278 186 657)" fill="#6F7F68" opacity=".18"/>
+  <ellipse cx="264" cy="275" rx="46" ry="130" transform="rotate(61 264 275)" fill="#6F7F68" opacity=".18"/>
+  <ellipse cx="375" cy="836" rx="23" ry="67" transform="rotate(265 375 836)" fill="#6F7F68" opacity=".18"/>
+  <ellipse cx="400.0" cy="860.0" rx="256.0" ry="30.0" fill="#4F6B57" opacity=".12"/>
+  
+  <g>
+    <rect x="378.44" y="246.8" width="43.120000000000005" height="31.2" rx="3" fill="#F6F2EA" stroke="#4F6B57" stroke-opacity=".3"/>
+    <rect x="390.76" y="278.0" width="18.48" height="52.0" fill="#F6F2EA" stroke="#4F6B57" stroke-opacity=".3"/>
+    <path d="M369.2 246.8 h-39.6 v-15.6 h39.6" stroke="#4F6B57" stroke-opacity=".35" fill="none"/>
+    <rect x="290" y="330" width="220" height="520" rx="35.2" fill="#6F7F68"/>
+    <rect x="290" y="330" width="48.4" height="520" rx="24.2" fill="#fff" opacity=".18"/>
+    <rect x="320.8" y="486.0" width="158.4" height="218.4" rx="6" fill="#FFFDF9" opacity=".92"/>
+    <text x="400.0" y="553.6" font-family="Georgia, serif" font-size="24.2" letter-spacing="3" fill="#4F6B57" text-anchor="middle">HANAMORI</text>
+    <text x="400.0" y="605.6" font-family="Georgia, serif" font-style="italic" font-size="18.700000000000003" fill="#3D3A36" text-anchor="middle">Mossy Rain</text>
+    <text x="400.0" y="662.8" font-family="sans-serif" font-size="13.2" letter-spacing="2" fill="#3D3A36" opacity=".7" text-anchor="middle">SHAMPOO</text>
+  </g>
+  <text x="776" y="976" font-family="sans-serif" font-size="14" fill="#4F6B57" opacity="0.55" text-anchor="end">仮画像</text>
+</svg>

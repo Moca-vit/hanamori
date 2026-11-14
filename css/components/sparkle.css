@@ -1,0 +1,49 @@
+/* ホバーすると文字の上を金色の光の帯が通り抜ける演出
+   data-sparkle 属性をつけた要素に適用。光の粒は JS（sparkle.js）が生成する
+   文字色（color）は変えず、塗り（text-fill-color）だけを透明にしてグラデーションを見せる。
+   color を透明にすると currentColor も透明になり、帯が通ったあと文字が消えてしまうため */
+.sparkle {
+  position: relative;
+  display: inline-block;
+  /* ゴールド → 白く光るシャンパン → ゴールドの帯。暗い文字の上で「光」に見えるよう明るくしている。
+     帯（35〜65%）が始まりと終わりで文字の外に出るよう、幅は 300% にする */
+  background-image: linear-gradient(100deg,
+    currentColor 35%, var(--color-gold) 43%, var(--color-champagne) 50%, var(--color-gold) 57%, currentColor 65%);
+  background-size: 300% 100%;
+  background-position: 100% 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+.sparkle:hover,
+a:hover > .sparkle,
+a:focus-visible > .sparkle {
+  -webkit-text-fill-color: transparent;
+  animation: sparkle-sweep 1.4s var(--ease-soft) forwards;
+}
+/* 帯が通る間だけ、文字のまわりに金色のほのかな輝きをにじませる */
+@keyframes sparkle-sweep {
+  0%   { background-position: 100% 0; filter: drop-shadow(0 0 0 transparent); }
+  50%  { filter: drop-shadow(0 0 6px var(--color-gold-glow)); }
+  100% { background-position: 0 0; filter: drop-shadow(0 0 0 transparent); }
+}
+
+.sparkle-dot {
+  position: absolute;
+  width: 6px; height: 6px;
+  pointer-events: none;
+  background: radial-gradient(circle, #fff 0%, var(--color-gold) 40%, transparent 70%);
+  border-radius: 50%;
+  animation: sparkle-pop 0.9s ease-out forwards;
+}
+@keyframes sparkle-pop {
+  0%   { transform: scale(0) rotate(0); opacity: 0; }
+  40%  { transform: scale(1.4) rotate(45deg); opacity: 1; }
+  100% { transform: scale(0) rotate(90deg) translateY(-8px); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sparkle:hover,
+  a:hover > .sparkle,
+  a:focus-visible > .sparkle { -webkit-text-fill-color: currentColor; animation: none; }
+  .sparkle-dot { display: none; }
+}

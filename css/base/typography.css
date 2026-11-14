@@ -1,0 +1,54 @@
+body {
+  font-family: var(--font-body);
+  font-size: var(--fs-base);
+  line-height: 1.9;
+  letter-spacing: 0.04em;
+  color: var(--color-text);
+  background: var(--color-sub);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-heading);
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: 0.08em;
+  text-wrap: balance;   /* 見出しの行の長さをそろえ、最後の行に1〜2文字だけ残さない */
+  word-break: keep-all;      /* 「ムーンガーデ／ン」のような言葉の途中で折り返さない（空白・「、」の位置で折り返す） */
+  overflow-wrap: anywhere;   /* それでも収まらないときだけ、どこでも折り返す */
+}
+
+/* 見出しの大きさの初期値。h1 は大見出し、h2 は中見出し、h3 は小見出し。
+   セクションの見出し（.section-title h2）と見出し帯（.page-hero h1）は grid.css で大見出しにする */
+h1 { font-size: var(--fs-display); }
+h2 { font-size: var(--fs-heading); }
+h3 { font-size: var(--fs-subheading); }
+
+p { text-wrap: pretty; }  /* 本文の最後の行に1〜2文字だけ残さない */
+
+.en {
+  font-family: var(--font-accent);
+  font-style: italic;
+  letter-spacing: 0.06em;
+}
+
+p + p { margin-top: 1em; }
+
+small, .note {
+  font-size: var(--fs-xs);
+  color: var(--color-text-soft);
+  line-height: 1.7;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-button);
+  outline-offset: 3px;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}

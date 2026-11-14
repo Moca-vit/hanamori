@@ -1,0 +1,88 @@
+/* ==========================================================
+   HANAMORI — デザイン変数
+   配色・フォント・余白はここだけで管理する
+   ========================================================== */
+:root {
+  /* ブランドカラー：森林浴 */
+  --color-main: #8FA68E;          /* セージグリーン */
+  --color-main-light: #C9D6C5;
+  --color-sub: #F6F2EA;           /* アイボリー */
+  --color-sub-deep: #ECE5D8;
+  --color-button: #4F6B57;        /* ディープフォレスト */
+  --color-button-hover: #3E5745;
+  --color-text: #3D3A36;
+  --color-text-soft: #6E6A63;
+  --color-white: #FFFDF9;
+  --color-line: #DCD4C6;
+  --color-line-soft: #EAE3D6;     /* カードの縁取りなど、ごく控えめな線 */
+  --color-gold: #C9B37E;          /* きらめき用のアクセント */
+  /* 購入ボタン用のアクセント：テラコッタ（木の幹・土の色）。
+     緑の写真の上でも埋もれないよう、緑と反対側の暖色にしている。白文字とのコントラスト 4.9:1 */
+  --color-accent: #8F4A30;        /* 塗りボタンはこの1色だけ。白文字とのコントラスト 6.5:1 */
+  --color-accent-hover: #74391F;
+  --color-champagne: #E8D9A8;     /* きらめく文字の光の帯の中心（白く光る部分） */
+  --color-gold-glow: rgba(201, 179, 126, 0.6); /* きらめく文字のまわりのほのかな輝き */
+  --color-glass: rgba(255, 253, 249, 0.72); /* 写真の上に置く枠線ボタンの下地 */
+  --color-error: #A5533F;
+
+  /* フォント：上品ナチュラル */
+  --font-heading: "Shippori Mincho", "Hiragino Mincho ProN", serif;
+  --font-body: "Zen Kaku Gothic New", "Hiragino Sans", sans-serif;
+  --font-accent: "Cormorant Garamond", "Times New Roman", serif;
+
+  /* 文字サイズ（画面幅に応じて伸縮） */
+  --fs-xs: 0.75rem;
+  --fs-sm: 0.875rem;
+  --fs-base: 1rem;
+  --fs-lg: clamp(1.125rem, 1rem + 0.4vw, 1.25rem);
+  --fs-xl: clamp(1.375rem, 1.1rem + 1vw, 1.75rem);
+  --fs-2xl: clamp(1.75rem, 1.3rem + 1.8vw, 2.5rem);
+  --fs-3xl: clamp(2.25rem, 1.5rem + 3vw, 3.75rem);
+  /* 見出しは3段階だけ使う（全ページ共通）
+     大見出し：ページ・セクションの見出し（h1、.section-title h2、.page-hero h1）
+     中見出し：カードの見出し、本文中の見出し
+     小見出し：商品名・香りの名前・表の見出しなど */
+  --fs-display: clamp(2rem, 1.1rem + 4vw, 4.5rem);
+  --fs-heading: clamp(1.125rem, 0.95rem + 0.9vw, 1.75rem);
+  --fs-subheading: var(--fs-lg);
+  --fs-body: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);   /* 本文（中くらい）。補足は --fs-xs */
+
+  /* 余白 */
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 1.5rem;
+  --space-lg: 2.5rem;
+  --space-xl: clamp(4rem, 3rem + 4vw, 7rem);
+  --gutter: clamp(1rem, 0.5rem + 3vw, 3rem);
+  --container: 1120px;
+  --container-narrow: 760px;
+  /* セクションの余白は3つだけ使う（全ページ共通）
+     --space-section：セクションの上下
+     --space-title  ：見出しのまとまり → 中身
+     --space-more   ：中身 → 「詳しく見る」などのリンク・ボタン */
+  --space-section: var(--space-xl);
+  --space-title: clamp(2.5rem, 2rem + 2vw, 4rem);
+  --space-more: var(--space-lg);
+  /* カードの内側の余白（画面幅に合わせて広がる） */
+  --space-card-y: clamp(2.5rem, 1.8rem + 3vw, 4rem);
+  --space-card-x: clamp(1.75rem, 1.2rem + 2.4vw, 3rem);
+
+  /* 形・影・動き */
+  /* 角丸は2種類だけ使う（全ページ共通）
+     --radius-pill：押せるもの（ボタン・タブ・数量・バッジ）
+     --radius-card：面（カード・入力欄・画像・お知らせ枠）。丸い画像だけは 50% */
+  --radius-pill: 999px;
+  --radius-card: 6px;
+  --shadow-soft: 0 12px 40px rgba(79, 107, 87, 0.12);
+  /* 商品が浮く演出の共通ルール（背景を抜いた商品画像に filter で使う）
+     ふだんは近くに濃い影、浮くと影が遠く・大きく・薄くなる */
+  --float-lift: -14px;
+  --shadow-float: drop-shadow(0 14px 12px color-mix(in srgb, var(--color-button-hover) 45%, transparent));
+  --shadow-float-up: drop-shadow(0 32px 24px color-mix(in srgb, var(--color-button-hover) 26%, transparent));
+  /* 商品画像の下地：中央にやわらかな光 */
+  --bg-product: radial-gradient(ellipse 70% 60% at 50% 45%, var(--color-white), var(--color-sub-deep));
+  --ease-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --duration-slow: 1.2s;
+  --duration-base: 0.6s;
+  --header-height: 72px;
+}

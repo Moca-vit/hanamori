@@ -1,0 +1,36 @@
+/* 文字と写真が横に流れるループ表示 */
+.marquee {
+  overflow: hidden;
+  padding-block: var(--space-lg);
+  --marquee-duration: 60s;
+}
+.marquee__track {
+  display: flex;
+  width: max-content;
+  animation: marquee-flow var(--marquee-duration) linear infinite;
+}
+.marquee--reverse .marquee__track { animation-direction: reverse; }
+.marquee:hover .marquee__track { animation-play-state: paused; }
+.marquee__group { display: flex; align-items: center; gap: var(--space-lg); padding-right: var(--space-lg); }
+.marquee__word {
+  font-family: var(--font-accent);
+  font-style: italic;
+  font-size: clamp(3rem, 2rem + 5vw, 6.5rem);
+  color: var(--color-main);
+  opacity: 0.55;
+  white-space: nowrap;
+}
+.marquee__photo {
+  width: clamp(160px, 20vw, 260px);
+  aspect-ratio: 3 / 4;
+  border-radius: var(--radius-card);
+  object-fit: cover;
+}
+.marquee__photo:nth-child(4n) { aspect-ratio: 1; border-radius: 50%; }
+@keyframes marquee-flow {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee__track { animation: none; }
+}
