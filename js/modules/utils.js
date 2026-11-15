@@ -18,6 +18,30 @@ HANAMORI.utils = {
       return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
     });
   },
+  // 日本語の文は1文字ずつどこでも改行できるため、画面幅によって「。」や最後の1文字だけが次の行に残ることがある。
+  // 文末の数文字を改行しないかたまり（.u-nowrap）にして、最後の行に必ず数文字残るようにする。
+  // CSS の text-wrap: pretty はブラウザによって効かないため、こちらで確実に防ぐ
+  keepTail: function (scope) {
+    const TAIL = 4;   // 最後の行に残す最低文字数（句読点を含む）
+    const selector = "main p, main h1, main h2, main h3, main li, main dd, main summary, .page-hero h1, .page-hero p";
+    (scope || document).querySelectorAll(selector).forEach(function (el) {
+      if (el.dataset.keepTail || el.closest("[data-split], [data-sparkle]") || el.querySelector("[data-sparkle], .u-nowrap")) return;
+      // いちばん最後の文字を含むテキストを探す（リンクや強調の中でもよい）
+      const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+      let node, last = null;
+      while ((node = walker.nextNode())) { if (node.data.trim()) last = node; }
+      if (!last) return;
+      const text = last.data.replace(/\s+$/, "");
+      // 短すぎる文・英数字だけの文は対象外
+      if (text.length < TAIL + 2 || !/[\u3000-\u30ff\u4e00-\u9fff\uff00-\uffef]/.test(text.slice(-TAIL))) return;
+      const span = document.createElement("span");
+      span.className = "u-nowrap";
+      span.textContent = text.slice(-TAIL);
+      const rest = last.splitText(text.length - TAIL);   // rest = 文末の数文字（＋後ろの空白）
+      rest.parentNode.replaceChild(span, rest);
+      el.dataset.keepTail = "1";
+    });
+  },
   reducedMotion: function () {
     return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   },

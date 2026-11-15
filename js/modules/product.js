@@ -93,7 +93,9 @@
       box.innerHTML = P.series.map(function (s, i) {
         return (
           '<a class="scent-item reveal" data-delay="' + (i % 4) + '" href="' + u.path(s.url) + '">' +
-          '<span class="scent-item__dot" style="background:radial-gradient(circle at 35% 30%, ' + s.colorLight + ", " + s.color + ')"></span>' +
+          // 写真の読み込み前は香りの色のグラデーションを見せ、外枠も香りの色にする
+          '<span class="scent-item__dot" style="--scent-color:' + s.color + ';background:radial-gradient(circle at 35% 30%, ' + s.colorLight + ", " + s.color + ')">' +
+          '<img src="' + u.path(s.scentImage) + '" alt="" width="240" height="240" loading="lazy" decoding="async"></span>' +
           '<div><h3><span class="sparkle" data-sparkle>' + s.name + "</span></h3><p>" + s.notes + "</p></div></a>"   // 文字量を抑えるため、香りの説明（mood）は商品ページだけに
         );
       }).join("");

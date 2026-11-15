@@ -126,7 +126,7 @@
 }
 .variant:has(input:checked) { border-color: var(--color-button); background: rgba(201, 214, 197, 0.25); }
 .variant input { accent-color: var(--color-button); width: 18px; height: 18px; }
-.variant__name { font-size: var(--fs-sm); word-break: keep-all; overflow-wrap: anywhere; }
+.variant__name { font-size: var(--fs-sm); word-break: auto-phrase; line-break: strict; }
 .variant__name small { display: block; }
 .variant__price { font-size: var(--fs-sm); white-space: nowrap; }
 

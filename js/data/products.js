@@ -88,6 +88,8 @@ window.HANAMORI = window.HANAMORI || {};
       return "assets/images/products/" + s.id + "-" + k + ext;
     });
     s.url = "html/products/" + s.id + ".html";
+    // 香り一覧の丸い写真（香りの花や葉が水に浮かぶ写真）
+    s.scentImage = "assets/images/scents/" + s.id + ".webp";
   });
 
   // 5つの香りのお試しセット（香りをまたぐ商品なので、シリーズとは別に1つだけ持つ）

@@ -1,13 +1,14 @@
 /* スクロールで ふわっと現れる */
 .reveal {
   opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 1.2s var(--ease-soft), transform 1.2s var(--ease-soft);
+  transform: translateY(16px);
+  /* 速くスクロールしても中身が遅れて見えないよう、短めに。画面に入る少し手前から始める（animation.js） */
+  transition: opacity 0.7s var(--ease-soft), transform 0.7s var(--ease-soft);
 }
 .reveal.is-visible { opacity: 1; transform: none; }
-.reveal[data-delay="1"] { transition-delay: 0.15s; }
-.reveal[data-delay="2"] { transition-delay: 0.3s; }
-.reveal[data-delay="3"] { transition-delay: 0.45s; }
+.reveal[data-delay="1"] { transition-delay: 0.08s; }
+.reveal[data-delay="2"] { transition-delay: 0.16s; }
+.reveal[data-delay="3"] { transition-delay: 0.24s; }
 @media (prefers-reduced-motion: reduce) {
   .reveal { opacity: 1; transform: none; }
 }

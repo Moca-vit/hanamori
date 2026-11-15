@@ -47,7 +47,7 @@
 /* キャッチコピーは横書きで大きく。添える一文は小さく控えめにして、大小の差で見せる */
 .hero__catch {
   font-size: var(--fs-display);   /* 大見出し（全ページ共通の大きさ） */
-  font-weight: 400;
+  font-weight: 500;               /* 明朝は 500 だけ読み込む（フォントを軽くするため） */
   line-height: 1.6;
   letter-spacing: 0.14em;
 }
@@ -312,9 +312,15 @@ main .text-link { font-size: var(--fs-xs); letter-spacing: 0.16em; }
   transition: transform 0.5s var(--ease-soft), box-shadow 0.5s var(--ease-soft);
 }
 .scent-item:hover { transform: translateY(-4px); box-shadow: var(--shadow-soft); }
-.scent-item__dot { width: 72px; height: 72px; border-radius: 50%; }
+.scent-item__dot {
+  width: 72px; height: 72px; border-radius: 50%; overflow: hidden;
+  box-shadow: 0 0 0 3px var(--color-white), 0 0 0 4px var(--scent-color, var(--color-line-soft));
+}
+.scent-item__dot img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s var(--ease-soft); }
+.scent-item:hover .scent-item__dot img { transform: scale(1.08); }
+@media (prefers-reduced-motion: reduce) { .scent-item__dot img { transition: none; } .scent-item:hover .scent-item__dot img { transform: none; } }
 .scent-item h3 { font-family: var(--font-accent); font-style: italic; font-size: var(--fs-subheading); }
-.scent-item p { font-size: var(--fs-xs); color: var(--color-text-soft); line-height: 1.6; word-break: keep-all; overflow-wrap: anywhere; }
+.scent-item p { font-size: var(--fs-xs); color: var(--color-text-soft); line-height: 1.6; word-break: auto-phrase; line-break: strict; }
 @media (min-width: 640px) { .scent-list { grid-template-columns: repeat(2, 1fr); } }
 @media (min-width: 960px) {
   .scent-list { grid-template-columns: repeat(5, 1fr); }
@@ -323,6 +329,17 @@ main .text-link { font-size: var(--fs-xs); letter-spacing: 0.16em; }
 }
 
 /* ---- バスタイムの過ごし方 ---- */
+/* 過ごし方ページの動画（4:3）。読み込み前は poster の1枚を見せる */
+/* 縦長（3:4）にして、右に縦に並ぶ手順のカードと釣り合わせる */
+.ritual-video { position: relative; width: 100%; max-width: 420px; margin-inline: auto; aspect-ratio: 3 / 4; overflow: hidden; border-radius: var(--radius-card); background: var(--color-sub-deep); }
+.ritual-video__media { display: block; width: 100%; height: 100%; object-fit: cover; }
+/* PC では手順を読み進める間も動画が見えるよう、画面の上に留める。画面の高さに収まる大きさまで */
+@media (min-width: 768px) {
+  .ritual-video {
+    align-self: start; position: sticky; top: calc(var(--header-height) + var(--space-md));
+    max-width: min(100%, calc((100svh - var(--header-height) - var(--space-md) * 2) * 3 / 4));
+  }
+}
 .ritual { display: grid; gap: var(--space-md); counter-reset: ritual; }
 @media (min-width: 768px) { .ritual { grid-template-columns: repeat(3, 1fr); } }
 
@@ -338,7 +355,7 @@ main .text-link { font-size: var(--fs-xs); letter-spacing: 0.16em; }
    写真で雰囲気を味わってから、最後にボタン1つへ集中させる */
 .top-cta__sns { position: relative; margin-bottom: var(--space-section); }
 .top-cta__action { position: relative; }
-.top-cta__action p { margin: var(--space-sm) 0 var(--space-xl); color: var(--color-text-soft); word-break: keep-all; overflow-wrap: anywhere; }
+.top-cta__action p { margin: var(--space-sm) 0 var(--space-xl); color: var(--color-text-soft); word-break: auto-phrase; line-break: strict; }
 /* 受け皿（フォロー）と問い合わせは、注文ボタンから離して控えめに */
 .top-cta__action .top-cta__follow { margin: var(--space-lg) 0 0; }
 .top-cta__action .top-cta__contact { margin: var(--space-sm) 0 0; }
@@ -377,7 +394,7 @@ main .text-link { font-size: var(--fs-xs); letter-spacing: 0.16em; }
   border-bottom: 1px solid var(--color-line-soft);
 }
 .price-list__item:last-child { border-bottom: 0; }
-.price-list__name { flex: 1; min-width: 0; font-family: var(--font-heading); word-break: keep-all; overflow-wrap: anywhere; }
+.price-list__name { flex: 1; min-width: 0; font-family: var(--font-heading); word-break: auto-phrase; line-break: strict; }
 .price-list__name small,
 .price-list__price small {
   display: block;

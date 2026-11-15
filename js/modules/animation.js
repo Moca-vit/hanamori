@@ -48,7 +48,7 @@
       entries.forEach(function (e) {
         if (e.isIntersecting) { e.target.classList.add("is-visible"); io.unobserve(e.target); }
       });
-    }, { rootMargin: "0px 0px -10% 0px" });
+    }, { rootMargin: "0px 0px 15% 0px" });   // 画面の下端より少し手前で始め、スクロールに遅れないようにする
     items.forEach(function (el) { io.observe(el); });
   }
 
@@ -61,9 +61,15 @@
       imgs.forEach(function (img) {
         const rect = img.parentElement.getBoundingClientRect();
         if (rect.bottom < 0 || rect.top > vh) return;
+        // 画像は枠より 15% 高い（top.css の .parallax-img img）。動かせるのはこの余り（spare）の中だけ。
+        // 以前は「画面中央からの距離 × 速さ」をそのまま動かしていたため、枠が画面の下半分にあるとき
+        // 余りより大きく上へずれて、枠の下に白い隙間が出ていた。進み具合を -1〜1 に収めて、はみ出さないようにする
         const speed = parseFloat(img.dataset.parallax) || 0.15;
-        const offset = (rect.top + rect.height / 2 - vh / 2) * speed;
-        img.style.transform = "translate3d(0," + (-offset - rect.height * 0.07).toFixed(1) + "px,0)";
+        const spare = img.offsetHeight - rect.height;
+        const progress = Math.max(-1, Math.min(1, (rect.top + rect.height / 2 - vh / 2) / (vh / 2 + rect.height / 2)));
+        const amount = Math.min(1, speed / 0.22);   // 速さの値が大きいほど大きく動かす（0.22 で余りを使い切る）
+        const shift = -spare / 2 - progress * (spare / 2) * amount;   // 0（画像の上端が枠の上端）〜 -spare（下端が枠の下端）
+        img.style.transform = "translate3d(0," + shift.toFixed(1) + "px,0)";
       });
       ticking = false;
     };
@@ -71,6 +77,26 @@
       if (!ticking) { ticking = true; requestAnimationFrame(update); }
     }, { passive: true });
     update();
+  }
+
+  // 音のない短い動画（data-autoplay-video）は、画面に入ったら再生し、外れたら止める。
+  // 動きを減らす設定の人には再生せず、poster の1枚だけを見せる
+  function autoplayVideos() {
+    const videos = document.querySelectorAll("video[data-autoplay-video]");
+    if (!videos.length || u.reducedMotion() || !("IntersectionObserver" in window)) return;
+    const io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        const v = e.target;
+        if (e.isIntersecting) {
+          v.preload = "auto";
+          const p = v.play();
+          if (p && p.catch) p.catch(function () {});   // 省電力モードなどで自動再生できないときは poster のまま
+        } else {
+          v.pause();
+        }
+      });
+    }, { threshold: 0.25 });
+    videos.forEach(function (v) { io.observe(v); });
   }
 
   // ファーストビューの奥行き：手前の商品ほど大きく動かし、背景の森はわずかに反対へ。
@@ -147,6 +173,7 @@
       startWhenReady();
       reveal();
       parallax();
+      autoplayVideos();
       heroDepth();
       particles();
     }

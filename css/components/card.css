@@ -31,7 +31,7 @@
 .product-card__body { display: flex; flex-direction: column; gap: 0.5em; padding: var(--space-card-x); flex: 1; }
 .product-card__series { font-family: var(--font-accent); font-style: italic; color: var(--color-main); }
 /* 「セ／ット」のように単語の途中で折り返さない（区切りは空白と記号の位置だけ） */
-.product-card__title { margin-top: -0.3em; font-size: var(--fs-subheading); word-break: keep-all; overflow-wrap: anywhere; }
+.product-card__title { margin-top: -0.3em; font-size: var(--fs-subheading); word-break: auto-phrase; line-break: strict; }
 .product-card__notes { font-size: var(--fs-xs); color: var(--color-text-soft); }
 /* 価格は商品の説明とは別のまとまり。少し離して細い線で区切る */
 .product-card__price { margin-top: auto; padding-top: var(--space-sm); border-top: 1px solid var(--color-line-soft); font-size: var(--fs-sm); }
@@ -71,7 +71,7 @@
   opacity: 0.6;
 }
 /* 本文は「、」「。」の位置でだけ折り返す（「深呼／吸を。」のような途中の改行を防ぐ） */
-.feature-card p { font-size: var(--fs-sm); line-height: 2; color: var(--color-text-soft); word-break: keep-all; overflow-wrap: anywhere; }
+.feature-card p { font-size: var(--fs-sm); line-height: 2; color: var(--color-text-soft); word-break: auto-phrase; line-break: strict; }
 
 .sns-links { display: flex; gap: var(--space-xs); }
 .sns-links a {

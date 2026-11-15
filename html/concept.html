@@ -17,22 +17,22 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:site" content="@hanamori_demo">
   <link rel="icon" href="../assets/icons/favicon.svg" type="image/svg+xml">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;1,400&family=Shippori+Mincho:wght@400;500&family=Zen+Kaku+Gothic+New:wght@400;500&display=swap">
-  <link rel="stylesheet" href="../css/style.css">
-  <link rel="stylesheet" href="../css/pages/top.css">
-  <script src="../js/data/site.js" defer></script>
-  <script src="../js/data/products.js" defer></script>
-  <script src="../js/modules/utils.js" defer></script>
-  <script src="../js/modules/header.js" defer></script>
-  <script src="../js/modules/product.js" defer></script>
-  <script src="../js/modules/cart.js" defer></script>
-  <script src="../js/modules/marquee.js" defer></script>
-  <script src="../js/modules/form.js" defer></script>
-  <script src="../js/modules/sparkle.js" defer></script>
-  <script src="../js/modules/animation.js" defer></script>
-  <script src="../js/main.js" defer></script>
+  <!-- 日本語フォントは先に読み始める（サイト内に置いた軽いフォント。css/base/fonts.css） -->
+  <link rel="preload" href="../assets/fonts/shippori-mincho-500.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../assets/fonts/zen-kaku-gothic-new-400.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../css/style.css?v=2026111505">
+  <link rel="stylesheet" href="../css/pages/top.css?v=2026111505">
+  <script src="../js/data/site.js?v=2026111505" defer></script>
+  <script src="../js/data/products.js?v=2026111505" defer></script>
+  <script src="../js/modules/utils.js?v=2026111505" defer></script>
+  <script src="../js/modules/header.js?v=2026111505" defer></script>
+  <script src="../js/modules/product.js?v=2026111505" defer></script>
+  <script src="../js/modules/cart.js?v=2026111505" defer></script>
+  <script src="../js/modules/marquee.js?v=2026111505" defer></script>
+  <script src="../js/modules/form.js?v=2026111505" defer></script>
+  <script src="../js/modules/sparkle.js?v=2026111505" defer></script>
+  <script src="../js/modules/animation.js?v=2026111505" defer></script>
+  <script src="../js/main.js?v=2026111505" defer></script>
 </head>
 <body data-root="../">
   <a class="visually-hidden" href="#main">本文へ移動</a>
@@ -53,8 +53,8 @@
           <p>私たちが大切にしたのは「1日の終わりに、自分を労わる時間をつくること」。特別な準備はいりません。いつものお風呂に、花と森の香りをひとつ加えるだけです。</p>
         </div>
         <div class="top-concept__images" aria-hidden="true">
-          <div class="parallax-img parallax-img--a reveal"><img src="../assets/images/scene-forest.svg" alt="" width="1600" height="1000" loading="lazy" data-parallax="0.12"></div>
-          <div class="parallax-img parallax-img--b reveal" data-delay="2"><img src="../assets/images/scene-botanical.svg" alt="" width="1600" height="1000" loading="lazy" data-parallax="0.2"></div>
+          <div class="parallax-img parallax-img--a reveal"><img src="../assets/images/story/forest.webp" alt="" width="640" height="853" loading="lazy" decoding="async" data-parallax="0.12"></div>
+          <div class="parallax-img parallax-img--b reveal" data-delay="2"><img src="../assets/images/story/botanical.webp" alt="" width="560" height="560" loading="lazy" decoding="async" data-parallax="0.2"></div>
         </div>
       </div>
     </section>
@@ -63,7 +63,7 @@
         <div class="section-title reveal"><span class="en">Our Promise</span><h2>HANAMORI の3つの約束</h2></div>
         <div class="grid grid--3">
           <article class="feature-card reveal"><p class="feature-card__num">01</p><h3>自然の香りを、まっすぐに</h3><p>花や木から採れる精油を中心に、自然な香り立ちを大切にしています。</p></article>
-          <article class="feature-card reveal" data-delay="1"><p class="feature-card__num">02</p><h3>毎日続けられる価格で</h3><p>特別な日だけでなく、毎晩使えるように。手の届く「少しの贅沢」を目指しています。</p></article>
+          <article class="feature-card reveal" data-delay="1"><p class="feature-card__num">02</p><h3><span class="u-nowrap">毎日続けられる</span>価格で</h3><p>特別な日だけでなく、毎晩使えるように。手の届く「少しの贅沢」を目指しています。</p></article>
           <article class="feature-card reveal" data-delay="2"><p class="feature-card__num">03</p><h3>やさしい使い心地</h3><p>肌と髪を思いやる処方を目指し、パッチテストを行っています（すべての方に刺激が起きないわけではありません）。</p></article>
         </div>
       </div>
