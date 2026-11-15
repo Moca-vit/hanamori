@@ -67,6 +67,16 @@
   opacity: 0;
   transition: opacity 1.6s var(--ease-soft) 1.4s;
 }
+.hero__note { margin-top: var(--space-sm); opacity: 0; transition: opacity 1.2s var(--ease-soft) 2.8s; }
+/* 何のブランドかを最初に一言で（キャッチの上に小さく） */
+.hero__label {
+  margin-bottom: var(--space-sm);
+  font-size: var(--fs-xs);
+  letter-spacing: 0.16em;
+  color: var(--color-button);
+  opacity: 0;
+  transition: opacity 1.6s var(--ease-soft) 0.2s;
+}
 /* キャッチと添える一文は1つのまとまりなので近く、ボタンは次の行動なので離す */
 .hero__lead {
   margin-top: var(--space-sm);
@@ -216,6 +226,8 @@
 .is-loaded .hero__bg { opacity: 1; transform: scale(1); }
 .is-loaded .hero__catch .char { opacity: 1; filter: blur(0); transform: none; }
 .is-loaded .hero__en,
+.is-loaded .hero__note,
+.is-loaded .hero__label,
 .is-loaded .hero__lead,
 .is-loaded .hero__scroll { opacity: 1; }
 .is-loaded .hero__actions { opacity: 1; transform: none; }
@@ -235,7 +247,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero__bg, .hero__catch .char, .hero__en, .hero__lead, .hero__actions,
+  .hero__bg, .hero__catch .char, .hero__en, .hero__label, .hero__note, .hero__lead, .hero__actions,
   .hero__visual::before, .hero__product, .hero__scroll { opacity: 1; transform: none; filter: none; transition: none; }
   .hero__product, .hero__bg { translate: none; }
   .hero__product img, .hero__mist span { animation: none; }
@@ -298,34 +310,75 @@ main .text-link { font-size: var(--fs-xs); letter-spacing: 0.16em; }
   .top-concept__images { min-height: 560px; }
 }
 
-/* ---- 香りの選び方 ---- */
-.scent-list { display: grid; gap: var(--space-sm); }
-.scent-item {
-  display: grid;
-  grid-template-columns: 72px 1fr;
+/* ---- 今夜はどんな気分？（香りを気分で選ぶカード。product.js の renderScents） ---- */
+/* スマホ：指で横にめくるカード。次のカードが少し見えるようにして、めくれることを伝える。説明は最初から見せる */
+ul.mood-list {   /* reset.css の ul[role="list"] { padding: 0 } より強くするため ul を付ける */
+  display: flex;
   gap: var(--space-sm);
-  align-items: center;
-  padding: var(--space-md) var(--space-card-x);
+  margin-inline: calc(var(--gutter) * -1);
+  padding: var(--space-xs) var(--gutter) var(--space-sm);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: var(--gutter);
+  overscroll-behavior-x: contain;
+  scrollbar-width: thin;
+}
+.mood-list__item { flex: 0 0 min(70%, 280px); scroll-snap-align: start; }
+.mood-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
   background: var(--color-white);
   border: 1px solid var(--color-line-soft);
   border-radius: var(--radius-card);
-  transition: transform 0.5s var(--ease-soft), box-shadow 0.5s var(--ease-soft);
+  color: var(--color-text);
+  text-align: left;
 }
-.scent-item:hover { transform: translateY(-4px); box-shadow: var(--shadow-soft); }
-.scent-item__dot {
-  width: 72px; height: 72px; border-radius: 50%; overflow: hidden;
-  box-shadow: 0 0 0 3px var(--color-white), 0 0 0 4px var(--scent-color, var(--color-line-soft));
-}
-.scent-item__dot img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s var(--ease-soft); }
-.scent-item:hover .scent-item__dot img { transform: scale(1.08); }
-@media (prefers-reduced-motion: reduce) { .scent-item__dot img { transition: none; } .scent-item:hover .scent-item__dot img { transform: none; } }
-.scent-item h3 { font-family: var(--font-accent); font-style: italic; font-size: var(--fs-subheading); }
-.scent-item p { font-size: var(--fs-xs); color: var(--color-text-soft); line-height: 1.6; word-break: auto-phrase; line-break: strict; }
-@media (min-width: 640px) { .scent-list { grid-template-columns: repeat(2, 1fr); } }
+.mood-card__media { display: block; aspect-ratio: 1; overflow: hidden; background: var(--scent-color); }
+.mood-card__media img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s var(--ease-soft); }
+.mood-card__body { display: flex; flex-direction: column; gap: 0.35em; padding: var(--space-sm) var(--space-sm) var(--space-md); }
+.mood-card__night { font-family: var(--font-heading); font-size: var(--fs-sm); line-height: 1.6; word-break: auto-phrase; line-break: strict; }
+.mood-card__name { font-family: var(--font-accent); font-style: italic; font-size: var(--fs-subheading); color: var(--color-button); }
+.mood-card__more-inner { display: flex; flex-direction: column; gap: 0.35em; }
+.mood-card__desc { font-size: var(--fs-sm); line-height: 1.7; word-break: auto-phrase; line-break: strict; }
+.mood-card__notes { font-size: var(--fs-xs); color: var(--color-text-soft); }
+.mood-card__go { margin-top: 0.4em; font-size: var(--fs-xs); letter-spacing: 0.08em; color: var(--color-button); }
+.mood-more { margin-top: var(--space-md); text-align: center; font-size: var(--fs-sm); color: var(--color-text-soft); }
+
+/* PC：5枚を横に並べる */
 @media (min-width: 960px) {
-  .scent-list { grid-template-columns: repeat(5, 1fr); }
-  .scent-item { grid-template-columns: 1fr; text-align: center; padding: var(--space-card-y) var(--space-sm); }
-  .scent-item__dot { margin-inline: auto; width: 96px; height: 96px; }
+  ul.mood-list { display: grid; grid-template-columns: repeat(var(--count, 5), 1fr); margin-inline: 0; padding: 0; overflow: visible; }
+  .mood-list__item { flex: none; }
+}
+/* PC でカーソルが使えるとき：写真の上に気分と名前を重ね、乗せると説明が下から浮かび上がる */
+@media (min-width: 960px) and (hover: hover) {
+  .mood-card { position: relative; border: 0; background: var(--scent-color); }
+  .mood-card__media { aspect-ratio: 3 / 4.4; }
+  .mood-card__body {
+    position: absolute;
+    inset: auto 0 0;
+    padding: var(--space-lg) var(--space-sm) var(--space-sm);
+    color: var(--color-white);
+    background: linear-gradient(to top, var(--color-photo-shade) 0%, var(--color-photo-shade) 55%, transparent 100%);
+    text-shadow: 0 1px 8px var(--color-photo-shade);
+  }
+  .mood-card__name, .mood-card__notes, .mood-card__go { color: var(--color-white); }
+  .mood-card__more {
+    display: grid;
+    grid-template-rows: 0fr;
+    opacity: 0;
+    transition: grid-template-rows 0.6s var(--ease-soft), opacity 0.6s var(--ease-soft);
+  }
+  .mood-card__more-inner { min-height: 0; overflow: hidden; padding-top: 0.35em; }
+  .mood-card:hover .mood-card__more,
+  .mood-card:focus-visible .mood-card__more { grid-template-rows: 1fr; opacity: 1; }
+  .mood-card:hover .mood-card__media img,
+  .mood-card:focus-visible .mood-card__media img { transform: scale(1.06); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mood-card__media img, .mood-card__more { transition: none; }
+  .mood-card:hover .mood-card__media img { transform: none; }
 }
 
 /* ---- バスタイムの過ごし方 ---- */
@@ -368,6 +421,10 @@ main .text-link { font-size: var(--fs-xs); letter-spacing: 0.16em; }
 /* 2項目だけのとき（お届けについて）は、中央に2列で */
 @media (min-width: 768px) { .top-points--2 { grid-template-columns: repeat(2, 1fr); max-width: 760px; margin-inline: auto; } }
 /* 注記はカードの補足なので、カードのすぐ近くに */
+/* 価格の下のお届け情報（送料・発送・定期購入なし） */
+.price-notes { display: grid; gap: var(--space-xs); margin-top: var(--space-md); font-size: var(--fs-sm); color: var(--color-text-soft); }
+.price-notes li { display: grid; grid-template-columns: 6em 1fr; gap: var(--space-sm); padding-bottom: var(--space-xs); border-bottom: 1px solid var(--color-line-soft); }
+.price-notes strong { font-weight: 400; color: var(--color-text); }
 .top-note {
   margin-top: var(--space-sm);
   text-align: center;

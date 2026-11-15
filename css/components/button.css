@@ -100,3 +100,6 @@
   border-bottom: 1px solid currentColor;
   padding-bottom: 2px;
 }
+
+/* お試しボタンに添える、不安を消す一言（定期購入ではない・送料無料） */
+.cta-note { margin-top: var(--space-xs); font-size: var(--fs-xs); letter-spacing: 0.08em; color: var(--color-text-soft); }

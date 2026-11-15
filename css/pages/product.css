@@ -141,3 +141,45 @@
   .product-detail { grid-template-columns: 1.05fr 1fr; align-items: start; }
   .product-gallery { position: sticky; top: calc(var(--header-height) + var(--space-md)); }
 }
+
+/* ---- 香りの商品ページ：迷った人をお試しセットへ戻す一行 ---- */
+.product-info__trial { margin-top: var(--space-sm); font-size: var(--fs-sm); color: var(--color-text-soft); }
+#add-to-cart { scroll-margin-top: calc(var(--header-height) + 30vh); }   /* 下の「カートに入れる」から戻ったとき、選択肢も見えるように */
+
+/* ---- お試しセットのページ ---- */
+.trial-inside__text { text-align: center; }
+.trial-inside__text h2 { margin-bottom: var(--space-md); font-size: var(--fs-display); }
+.trial-inside__text .en { display: block; color: var(--color-button); }
+.trial-inside__text .price-notes { text-align: left; }
+
+.scent-tour { display: grid; gap: var(--space-sm); grid-template-columns: repeat(2, 1fr); }
+.scent-tour__item {
+  display: flex; flex-direction: column; gap: 0.3em;
+  padding-bottom: var(--space-sm);
+  background: var(--color-white);
+  border: 1px solid var(--color-line-soft);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+}
+.scent-tour__item > :not(.scent-tour__media) { padding-inline: var(--space-sm); }
+.scent-tour__media { display: block; aspect-ratio: 4 / 3; overflow: hidden; margin-bottom: 0.4em; }
+.scent-tour__media img { width: 100%; height: 100%; object-fit: cover; }
+.scent-tour__day { font-size: var(--fs-sm); color: var(--color-button); }
+.scent-tour__night { font-family: var(--font-heading); font-size: var(--fs-sm); line-height: 1.6; word-break: auto-phrase; line-break: strict; }
+.scent-tour__name { font-family: var(--font-accent); font-style: italic; font-size: var(--fs-lg); color: var(--color-button); }
+.scent-tour__notes { font-size: var(--fs-xs); color: var(--color-text-soft); }
+@media (min-width: 960px) { .scent-tour { grid-template-columns: repeat(5, 1fr); } }
+
+.compare-table { width: 100%; border-collapse: collapse; background: var(--color-white); border-radius: var(--radius-card); overflow: hidden; font-size: var(--fs-sm); }
+.compare-table th, .compare-table td { padding: 0.9em 0.8em; border-bottom: 1px solid var(--color-line-soft); text-align: center; font-weight: 400; }
+.compare-table thead th { font-family: var(--font-heading); }
+.compare-table thead th:last-child, .compare-table td:last-child { background: color-mix(in srgb, var(--color-main) 12%, var(--color-white)); }
+.compare-table tbody th { text-align: left; color: var(--color-text-soft); }
+.compare-table__total td strong { font-family: var(--font-heading); font-size: var(--fs-lg); font-weight: 500; color: var(--color-button); }
+[data-trial-compare] .note { margin-top: var(--space-sm); font-size: var(--fs-xs); color: var(--color-text-soft); }
+
+.trial-next, .trial-again { text-align: center; }
+.trial-next .en { display: block; color: var(--color-button); }
+.trial-next h2, .trial-again h2 { font-size: var(--fs-display); margin-bottom: var(--space-md); }
+.trial-next p { color: var(--color-text-soft); }
+.trial-again .button { min-width: 16em; justify-content: center; }

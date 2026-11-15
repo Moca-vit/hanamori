@@ -7,28 +7,28 @@
    ========================================================== */
 @font-face {
   font-family: "Shippori Mincho";
-  src: url("../../assets/fonts/shippori-mincho-500.woff2") format("woff2");
+  src: url("../../assets/fonts/shippori-mincho-500.woff2?v=2026111604") format("woff2");
   font-weight: 400 500;   /* 500 だけ持ち、400 を指定した場所もこのファイルで表示する */
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: "Zen Kaku Gothic New";
-  src: url("../../assets/fonts/zen-kaku-gothic-new-400.woff2") format("woff2");
+  src: url("../../assets/fonts/zen-kaku-gothic-new-400.woff2?v=2026111604") format("woff2");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: "Cormorant Garamond";
-  src: url("../../assets/fonts/cormorant-garamond-400.woff2") format("woff2");
+  src: url("../../assets/fonts/cormorant-garamond-400.woff2?v=2026111604") format("woff2");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: "Cormorant Garamond";
-  src: url("../../assets/fonts/cormorant-garamond-400-italic.woff2") format("woff2");
+  src: url("../../assets/fonts/cormorant-garamond-400-italic.woff2?v=2026111604") format("woff2");
   font-weight: 400;
   font-style: italic;
   font-display: swap;

@@ -19,6 +19,7 @@ window.HANAMORI = window.HANAMORI || {};
   const series = [
     {
       id: "forest-breath",
+      night: "頭の中がいっぱいの夜に",   // 「今夜はどんな気分？」のカードの問いかけ
       name: "Forest Breath",
       nameJa: "フォレストブレス",
       notes: "ヒノキ・ユーカリ・シダーウッド",
@@ -30,6 +31,7 @@ window.HANAMORI = window.HANAMORI || {};
     },
     {
       id: "flower-field",
+      night: "こわばった気持ちをほどきたい夜に",   // 「今夜はどんな気分？」のカードの問いかけ
       name: "Flower Field",
       nameJa: "フラワーフィールド",
       notes: "ラベンダー・ゼラニウム",
@@ -40,6 +42,7 @@ window.HANAMORI = window.HANAMORI || {};
     },
     {
       id: "morning-dew",
+      night: "気分を切り替えたい夜に",   // 「今夜はどんな気分？」のカードの問いかけ
       name: "Morning Dew",
       nameJa: "モーニングデュウ",
       notes: "ゆず・ベルガモット・ミント",
@@ -50,6 +53,7 @@ window.HANAMORI = window.HANAMORI || {};
     },
     {
       id: "moon-garden",
+      night: "1日をゆっくり締めくくりたい夜に",   // 「今夜はどんな気分？」のカードの問いかけ
       name: "Moon Garden",
       nameJa: "ムーンガーデン",
       notes: "カモミール・ネロリ",
@@ -60,6 +64,7 @@ window.HANAMORI = window.HANAMORI || {};
     },
     {
       id: "mossy-rain",
+      night: "静かに過ごしたい夜に",   // 「今夜はどんな気分？」のカードの問いかけ
       name: "Mossy Rain",
       nameJa: "モッシーレイン",
       notes: "ベチバー・パチュリ・オークモス",
@@ -88,8 +93,8 @@ window.HANAMORI = window.HANAMORI || {};
       return "assets/images/products/" + s.id + "-" + k + ext;
     });
     s.url = "html/products/" + s.id + ".html";
-    // 香り一覧の丸い写真（香りの花や葉が水に浮かぶ写真）
-    s.scentImage = "assets/images/scents/" + s.id + ".webp";
+    // 「今夜はどんな気分？」のカードの写真（香りの花や葉が水に浮かぶ写真・縦長 4:5）
+    s.moodImage = "assets/images/moods/" + s.id + ".webp";
   });
 
   // 5つの香りのお試しセット（香りをまたぐ商品なので、シリーズとは別に1つだけ持つ）

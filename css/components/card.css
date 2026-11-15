@@ -85,3 +85,23 @@
 }
 .sns-links a:hover { background: var(--color-button); color: var(--color-white); }
 .sns-links svg { width: 18px; height: 18px; }
+
+/* お試しした方の声（product.js の renderVoices） */
+.voice-list { display: grid; gap: var(--space-sm); }
+@media (min-width: 768px) { .voice-list { grid-template-columns: repeat(3, 1fr); } }
+.voice-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--space-sm);
+  margin: 0;
+  padding: var(--space-card-y) var(--space-card-x);
+  background: var(--color-white);
+  border: 1px solid var(--color-line-soft);
+  border-radius: var(--radius-card);
+}
+.voice-card__text { margin: 0; }
+.voice-card__text p { font-size: var(--fs-sm); line-height: 2; }
+.voice-card__text p::before { content: "“"; display: block; font-family: var(--font-accent); font-size: var(--fs-2xl); line-height: 0.8; color: var(--color-main); }
+.voice-card__who { font-size: var(--fs-xs); color: var(--color-text-soft); letter-spacing: 0.08em; }
+.voice-card__scent { display: block; margin-top: 0.2em; font-family: var(--font-accent); font-style: italic; font-size: var(--fs-sm); color: var(--color-button); }

@@ -2,7 +2,7 @@
    商品の表示
    - 一覧：[data-product-list]（data-filter="true" で種類別の絞り込みタブを表示）
    - 詳細：<body data-series="forest-breath"> のページの [data-product-detail]
-   - 香り一覧：[data-scent-list]
+   - 香りを気分で選ぶカード：[data-scent-list]
    ========================================================== */
 (function () {
   const u = HANAMORI.utils;
@@ -64,6 +64,8 @@
       box.innerHTML = html;
 
       const state = { type: "all", scent: "all" };
+      // 「?type=set」のように種類を指定して開いたら、そのタブを選んだ状態にする（お試しセットのページから来たとき）
+      const preType = new URLSearchParams(location.search).get("type");
       const wash = box.closest(".section");
       if (box.dataset.filter === "true" && wash) wash.classList.add("scent-wash");
 
@@ -85,20 +87,32 @@
                      (state.scent !== "all" && c.dataset.series !== state.scent);
         });
       });
+      const preBtn = preType && box.querySelector('[data-filter-key="' + preType + '"]');
+      if (preBtn) preBtn.click();
     });
   }
 
+  // 「今夜はどんな気分？」：気分の問いかけ → 香りの名前 → 説明。押すと香りの商品ページへ。
+  // PC はカーソルを乗せると説明が浮かび上がり、スマホは説明を最初から見せて指で横にめくる（top.css の .mood-card）
   function renderScents() {
     document.querySelectorAll("[data-scent-list]").forEach(function (box) {
-      box.innerHTML = P.series.map(function (s, i) {
+      // 香りの商品ページでは、いま見ている香りを除いて「ほかの香り」だけを並べる
+      const list = P.series.filter(function (s) { return s.id !== document.body.dataset.series; });
+      box.innerHTML = '<ul class="mood-list" role="list" style="--count:' + list.length + '">' + list.map(function (s, i) {
         return (
-          '<a class="scent-item reveal" data-delay="' + (i % 4) + '" href="' + u.path(s.url) + '">' +
-          // 写真の読み込み前は香りの色のグラデーションを見せ、外枠も香りの色にする
-          '<span class="scent-item__dot" style="--scent-color:' + s.color + ';background:radial-gradient(circle at 35% 30%, ' + s.colorLight + ", " + s.color + ')">' +
-          '<img src="' + u.path(s.scentImage) + '" alt="" width="240" height="240" loading="lazy" decoding="async"></span>' +
-          '<div><h3><span class="sparkle" data-sparkle>' + s.name + "</span></h3><p>" + s.notes + "</p></div></a>"   // 文字量を抑えるため、香りの説明（mood）は商品ページだけに
+          '<li class="mood-list__item reveal" data-delay="' + (i % 4) + '">' +
+          '<a class="mood-card" href="' + u.path(s.url) + '" style="--scent-color:' + s.color + '">' +
+          '<span class="mood-card__media"><img src="' + u.path(s.moodImage) + '" alt="" width="600" height="750" loading="lazy" decoding="async"></span>' +
+          '<span class="mood-card__body">' +
+          '<span class="mood-card__night">' + s.night + "</span>" +
+          '<span class="mood-card__name">' + s.name + "</span>" +
+          '<span class="mood-card__more"><span class="mood-card__more-inner">' +
+          '<span class="mood-card__desc">' + s.mood + "</span>" +
+          '<span class="mood-card__notes">' + s.notes + "</span>" +
+          '<span class="mood-card__go" aria-hidden="true">この香りを見る →</span>' +
+          "</span></span></span></a></li>"
         );
-      }).join("");
+      }).join("") + "</ul>";
     });
   }
 
@@ -144,7 +158,12 @@
       '<div class="purchase-row">' +
       '<div class="qty"><button type="button" data-step="-1" aria-label="数量を減らす">−</button><input type="number" name="qty" min="1" max="10" value="1" aria-label="数量"><button type="button" data-step="1" aria-label="数量を増やす">＋</button></div>' +
       '<button class="button" type="submit" id="add-to-cart">カートに入れる</button>' +
-      "</div></form>" +
+      "</div>" +
+      // お試しセット：定期購入ではないことを添える。香りの商品：迷った人をお試しセットへ戻す道（文字リンクで控えめに）
+      (s.id === P.trialSet.id
+        ? '<p class="cta-note">送料無料・1回きりのお届けで、定期購入ではありません</p>'
+        : '<p class="product-info__trial">ほかの香りも試したい方は <a class="text-link" href="' + u.path(P.trialSet.url) + '">5つの香りのお試しセット（送料無料）</a></p>') +
+      "</form>" +
       '<div class="share-row">シェアする' +
       '<div class="sns-links"><a href="https://x.com/intent/post?text=' + shareText + "&url=" + shareUrl + '" target="_blank" rel="noopener" aria-label="Xでシェア（新しいタブで開く）">' + HANAMORI.icons.x + "</a></div></div>" +
 
@@ -217,6 +236,52 @@
     });
   }
 
+  // お試しセットのお得さ：単品（1包）を5つ買う場合と比べる [data-trial-compare]
+  function renderTrialCompare() {
+    document.querySelectorAll("[data-trial-compare]").forEach(function (box) {
+      const one = P.findType("bath1"), trial = P.trialSet.variants[0], fee = HANAMORI.site.shippingFee;
+      box.innerHTML =
+        '<table class="compare-table"><caption class="visually-hidden">お試しセットと単品5包の比較</caption>' +
+        '<thead><tr><th scope="col"></th><th scope="col">単品を5包</th><th scope="col">お試しセット</th></tr></thead><tbody>' +
+        '<tr><th scope="row">商品代</th><td>' + u.yen(one.price * 5) + '</td><td>' + u.yen(trial.price) + "</td></tr>" +
+        '<tr><th scope="row">送料</th><td>' + u.yen(fee) + "</td><td>無料</td></tr>" +
+        '<tr><th scope="row">香り</th><td>選んだ香り</td><td>5つの香り 各1包</td></tr>' +
+        '<tr class="compare-table__total"><th scope="row">お支払い</th><td>' + u.yen(one.price * 5 + fee) + '</td><td><strong>' + u.yen(trial.price) + "</strong></td></tr>" +
+        "</tbody></table>" +
+        '<p class="note">価格はすべて税込。単品の送料は、ほかの商品と合わせて' + u.yen(HANAMORI.site.freeShippingFrom) + "以上で無料になります。</p>";
+    });
+  }
+
+  // 5日間の香りめぐり（お試しセットのページ）[data-scent-tour]：1日1包、気分に合わせて
+  function renderScentTour() {
+    document.querySelectorAll("[data-scent-tour]").forEach(function (box) {
+      box.innerHTML = '<ol class="scent-tour" role="list">' + P.series.map(function (s, i) {
+        return (
+          '<li class="scent-tour__item reveal" data-delay="' + (i % 4) + '">' +
+          '<span class="scent-tour__media"><img src="' + u.path(s.moodImage) + '" alt="" width="600" height="750" loading="lazy" decoding="async"></span>' +
+          '<span class="scent-tour__day en">Night ' + (i + 1) + "</span>" +
+          '<span class="scent-tour__night">' + s.night + "</span>" +
+          '<span class="scent-tour__name">' + s.name + "</span>" +
+          '<span class="scent-tour__notes">' + s.notes + "</span></li>"
+        );
+      }).join("") + "</ol>";
+    });
+  }
+
+  // お試しした方の声：[data-voices]（中身は site.js の voices）
+  function renderVoices() {
+    document.querySelectorAll("[data-voices]").forEach(function (box) {
+      box.innerHTML = '<div class="voice-list">' + HANAMORI.site.voices.map(function (v, i) {
+        return (
+          '<figure class="voice-card reveal" data-delay="' + i + '">' +
+          '<blockquote class="voice-card__text"><p>' + u.escape(v.text) + "</p></blockquote>" +
+          '<figcaption class="voice-card__who">' + u.escape(v.who) + '<span class="voice-card__scent">' + u.escape(v.scent) + "</span></figcaption>" +
+          "</figure>"
+        );
+      }).join("") + "</div>";
+    });
+  }
+
   // site.js の値を差し込む（送料・発送の目安など）
   function renderSiteValues() {
     document.querySelectorAll("[data-site-yen]").forEach(function (el) {
@@ -256,6 +321,9 @@
       renderList();
       renderScents();
       renderPrices();
+      renderVoices();
+      renderTrialCompare();
+      renderScentTour();
       renderSiteValues();
       renderDetail();
       trialBar();
