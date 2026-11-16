@@ -153,6 +153,11 @@
       "<h1>" + (s.title || s.nameJa + " シリーズ") + "</h1>" +
       '<p class="product-info__notes">' + (s.bathOnly ? "内容：" : "香り：") + s.notes + "</p>" +
       '<p class="product-info__desc">' + s.desc + "</p>" +
+      (s.profile
+        ? '<dl class="scent-profile">' + P.profileAxes.map(function (a) {
+            return '<div class="scent-profile__row"><dt>' + a.label + "</dt><dd>" + profileMeter(s.profile[a.key], a.label) + "</dd></div>";
+          }).join("") + "</dl>"
+        : "") +
       '<form data-add-form>' +
       '<fieldset style="border:0;padding:0;margin:0"><legend class="visually-hidden">商品を選ぶ</legend><div class="variant-list">' + variants + "</div></fieldset>" +
       '<div class="purchase-row">' +
@@ -233,6 +238,27 @@
           );
         }).join("") +
         "</ul>";
+    });
+  }
+
+  // 香りの印象（1〜5）を、5つの点で表す。読み上げでは「甘さ 4（5段階）」
+  function profileMeter(value, label) {
+    let dots = "";
+    for (let i = 1; i <= 5; i++) dots += '<span class="scent-meter__dot' + (i <= value ? " is-on" : "") + '"></span>';
+    return '<span class="scent-meter" role="img" aria-label="' + label + " " + value + '（5段階）">' + dots + "</span>";
+  }
+
+  // 香りをくらべる表（商品一覧）[data-scent-compare]
+  function renderScentCompare() {
+    document.querySelectorAll("[data-scent-compare]").forEach(function (box) {
+      box.innerHTML =
+        '<div class="scent-compare"><table class="scent-compare__table"><caption class="visually-hidden">5つの香りの印象をくらべる表</caption>' +
+        '<thead><tr><th scope="col">香り</th>' + P.profileAxes.map(function (a) { return '<th scope="col">' + a.label + "</th>"; }).join("") + "</tr></thead><tbody>" +
+        P.series.map(function (s) {
+          return '<tr style="--scent-color:' + s.color + '"><th scope="row"><a href="' + u.path(s.url) + '"><span class="scent-compare__name">' + s.name + '</span><span class="scent-compare__notes">' + s.notes + "</span></a></th>" +
+            P.profileAxes.map(function (a) { return "<td>" + profileMeter(s.profile[a.key], a.label) + "</td>"; }).join("") + "</tr>";
+        }).join("") +
+        "</tbody></table></div>";
     });
   }
 
@@ -323,6 +349,7 @@
       renderPrices();
       renderVoices();
       renderTrialCompare();
+      renderScentCompare();
       renderScentTour();
       renderSiteValues();
       renderDetail();

@@ -344,7 +344,6 @@ ul.mood-list {   /* reset.css の ul[role="list"] { padding: 0 } より強くす
 .mood-card__desc { font-size: var(--fs-sm); line-height: 1.7; word-break: auto-phrase; line-break: strict; }
 .mood-card__notes { font-size: var(--fs-xs); color: var(--color-text-soft); }
 .mood-card__go { margin-top: 0.4em; font-size: var(--fs-xs); letter-spacing: 0.08em; color: var(--color-button); }
-.mood-more { margin-top: var(--space-md); text-align: center; font-size: var(--fs-sm); color: var(--color-text-soft); }
 
 /* PC：5枚を横に並べる */
 @media (min-width: 960px) {

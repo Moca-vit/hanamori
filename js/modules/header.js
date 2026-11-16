@@ -36,6 +36,8 @@
       '<a class="site-header__logo" href="' + u.path("index.html") + '" aria-label="HANAMORI トップへ">HANAMORI<small>花と森のバスケア</small></a>' +
       '<nav class="site-nav" aria-label="メインメニュー"><ul class="site-nav__list" role="list">' + navItems + "</ul></nav>" +
       '<div class="site-header__tools">' +
+      // PC 用のお試しボタン（最初の画面を過ぎたら出す）。主役の塗りボタンと競わないよう枠線にする
+      '<a class="button button--ghost button--small site-header__trial" href="' + u.path(HANAMORI.products ? HANAMORI.products.trialSet.url : "html/products/trial-set.html") + '" tabindex="-1">お試しセット</a>' +
       '<a class="icon-button" href="' + u.path("html/cart.html") + '" aria-label="カートを見る">' + icons.cart +
       '<span class="cart-count" data-cart-count data-count="0">0</span></a>' +
       '<button class="icon-button menu-toggle" type="button" aria-label="メニューを開く" aria-expanded="false" aria-controls="drawer"><span></span></button>' +
@@ -85,7 +87,16 @@
   function bindScroll() {
     const header = document.querySelector(".site-header");
     if (!header) return;
-    const onScroll = function () { header.classList.toggle("is-scrolled", window.scrollY > 24); };
+    // お試しセット・カート・購入手続きのページでは、ヘッダーのお試しボタンを出さない（すでに目的の場所にいるため）
+    const trial = header.querySelector(".site-header__trial");
+    const skip = document.body.dataset.series === "trial-set" || /\/(cart|checkout|complete)\.html/.test(location.pathname);
+    if (trial && skip) trial.remove();
+    const onScroll = function () {
+      header.classList.toggle("is-scrolled", window.scrollY > 24);
+      const past = window.scrollY > window.innerHeight * 0.8;
+      header.classList.toggle("is-past", past);
+      if (trial && !skip) trial.tabIndex = past ? 0 : -1;   // 隠れている間はキーボードでも選ばれないように
+    };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
   }

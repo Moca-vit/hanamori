@@ -37,6 +37,20 @@
 .site-nav { display: none; }
 .site-nav__list { display: flex; gap: var(--space-md); font-size: var(--fs-sm); }
 .site-header__tools { display: flex; align-items: center; gap: var(--space-sm); }
+/* PC 用のお試しボタン：最初の画面を過ぎたら（.is-past）ふわっと出す。スマホは下の追従ボタンがあるので出さない */
+.site-header__trial { display: none; }
+@media (min-width: 960px) {
+  .site-header__trial {
+    display: inline-flex;
+    min-height: 34px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-4px);
+    transition: opacity 0.5s var(--ease-soft), transform 0.5s var(--ease-soft), visibility 0.5s;
+  }
+  .site-header.is-past .site-header__trial { opacity: 1; visibility: visible; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) { .site-header__trial { transition: none; } }
 
 .icon-button {
   position: relative;

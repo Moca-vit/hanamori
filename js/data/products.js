@@ -19,6 +19,7 @@ window.HANAMORI = window.HANAMORI || {};
   const series = [
     {
       id: "forest-breath",
+      profile: { sweet: 1, fresh: 4, deep: 3 },   // 香りの印象（1〜5）：甘さ・すっきり感・深み
       night: "頭の中がいっぱいの夜に",   // 「今夜はどんな気分？」のカードの問いかけ
       name: "Forest Breath",
       nameJa: "フォレストブレス",
@@ -31,6 +32,7 @@ window.HANAMORI = window.HANAMORI || {};
     },
     {
       id: "flower-field",
+      profile: { sweet: 4, fresh: 2, deep: 2 },   // 香りの印象（1〜5）：甘さ・すっきり感・深み
       night: "こわばった気持ちをほどきたい夜に",   // 「今夜はどんな気分？」のカードの問いかけ
       name: "Flower Field",
       nameJa: "フラワーフィールド",
@@ -42,6 +44,7 @@ window.HANAMORI = window.HANAMORI || {};
     },
     {
       id: "morning-dew",
+      profile: { sweet: 2, fresh: 5, deep: 1 },   // 香りの印象（1〜5）：甘さ・すっきり感・深み
       night: "気分を切り替えたい夜に",   // 「今夜はどんな気分？」のカードの問いかけ
       name: "Morning Dew",
       nameJa: "モーニングデュウ",
@@ -53,6 +56,7 @@ window.HANAMORI = window.HANAMORI || {};
     },
     {
       id: "moon-garden",
+      profile: { sweet: 3, fresh: 2, deep: 3 },   // 香りの印象（1〜5）：甘さ・すっきり感・深み
       night: "1日をゆっくり締めくくりたい夜に",   // 「今夜はどんな気分？」のカードの問いかけ
       name: "Moon Garden",
       nameJa: "ムーンガーデン",
@@ -64,6 +68,7 @@ window.HANAMORI = window.HANAMORI || {};
     },
     {
       id: "mossy-rain",
+      profile: { sweet: 1, fresh: 2, deep: 5 },   // 香りの印象（1〜5）：甘さ・すっきり感・深み
       night: "静かに過ごしたい夜に",   // 「今夜はどんな気分？」のカードの問いかけ
       name: "Mossy Rain",
       nameJa: "モッシーレイン",
@@ -89,12 +94,13 @@ window.HANAMORI = window.HANAMORI || {};
         image: "assets/images/products/" + s.id + "-" + item.image + ext
       };
     });
-    s.images = ["shampoo", "treatment", "bath", "set"].map(function (k) {
+    // scene：セージ色の台に3品を並べたスタイリング写真（tools/make-scenes.py で合成）
+    s.images = ["shampoo", "treatment", "bath", "set", "scene"].map(function (k) {
       return "assets/images/products/" + s.id + "-" + k + ext;
     });
     s.url = "html/products/" + s.id + ".html";
     // 「今夜はどんな気分？」のカードの写真（香りの花や葉が水に浮かぶ写真・縦長 4:5）
-    s.moodImage = "assets/images/moods/" + s.id + ".webp";
+    s.moodImage = "assets/images/moods/" + s.id + "-tone.webp";   // -tone：色味をそろえた写真（tools/grade-photos.py）
   });
 
   // 5つの香りのお試しセット（香りをまたぐ商品なので、シリーズとは別に1つだけ持つ）
@@ -128,8 +134,16 @@ window.HANAMORI = window.HANAMORI || {};
   // 薬用入浴剤の効能効果（医薬部外品として表示する内容）
   const bathEffects = "疲労回復、肩のこり、腰痛、冷え症、産前産後の冷え症、神経痛、リウマチ、うちみ、くじき、痔、荒れ性、あせも、しっしん、にきび、しもやけ、ひび、あかぎれ";
 
+  // 香りの印象の軸（商品一覧の比べる表と、各香りのページで使う）
+  const profileAxes = [
+    { key: "sweet", label: "甘さ", low: "控えめ", high: "やわらか" },
+    { key: "fresh", label: "すっきり感", low: "おだやか", high: "爽快" },
+    { key: "deep", label: "深み", low: "軽やか", high: "落ち着き" }
+  ];
+
   HANAMORI.products = {
     series: series,
+    profileAxes: profileAxes,
     trialSet: trialSet,
     bathEffects: bathEffects,
     findSeries: function (id) {

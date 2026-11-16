@@ -130,3 +130,6 @@
 @media (prefers-reduced-motion: reduce) {
   .buy-bar--trial, .buy-bar--trial.is-visible { transition: none; }
 }
+
+/* 「決められない夜は、…お試しセットへ」の一行（気分カードや香りの比較の下） */
+.mood-more { margin-top: var(--space-md); text-align: center; font-size: var(--fs-sm); color: var(--color-text-soft); }

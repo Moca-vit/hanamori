@@ -183,3 +183,21 @@
 .trial-next h2, .trial-again h2 { font-size: var(--fs-display); margin-bottom: var(--space-md); }
 .trial-next p { color: var(--color-text-soft); }
 .trial-again .button { min-width: 16em; justify-content: center; }
+
+/* ---- 香りの印象（5つの点）：商品一覧の比べる表と、各香りのページ ---- */
+.scent-meter { display: inline-flex; gap: 5px; vertical-align: middle; }
+.scent-meter__dot { width: 9px; height: 9px; border-radius: 50%; border: 1px solid var(--color-button); }
+.scent-meter__dot.is-on { background: var(--color-button); }
+
+.scent-profile { display: grid; gap: 0.4em; margin-top: var(--space-sm); font-size: var(--fs-sm); }
+.scent-profile__row { display: grid; grid-template-columns: 6em auto; align-items: center; }
+.scent-profile dt { color: var(--color-text-soft); }
+
+.scent-compare { overflow-x: auto; }
+.scent-compare__table { width: 100%; min-width: 520px; border-collapse: collapse; background: var(--color-white); border-radius: var(--radius-card); overflow: hidden; font-size: var(--fs-sm); }
+.scent-compare__table th, .scent-compare__table td { padding: 0.9em 0.8em; border-bottom: 1px solid var(--color-line-soft); text-align: center; font-weight: 400; }
+.scent-compare__table thead th { font-family: var(--font-heading); }
+.scent-compare__table tbody th { text-align: left; border-left: 4px solid var(--scent-color); }
+.scent-compare__table tbody th a { display: block; }
+.scent-compare__name { display: block; font-family: var(--font-accent); font-style: italic; font-size: var(--fs-lg); color: var(--color-button); }
+.scent-compare__notes { display: block; font-size: var(--fs-xs); color: var(--color-text-soft); }
