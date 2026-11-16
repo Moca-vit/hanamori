@@ -100,6 +100,24 @@
     );
   }
 
+  // お試しセットの提案：カートにお試しセットが入っていないときだけ、商品一覧の下に1つだけ控えめに出す。
+  // 送料がかかる注文なら、「一緒に頼むと注文全体が送料無料になる」ことを添える（主役の「ご注文手続きへ」と競わないよう枠線のボタン）
+  function trialSuggestHTML(items) {
+    const t = P.trialSet, v = t.variants[0];
+    if (items.some(function (i) { return i.sku === v.sku; })) return "";
+    const ship = cart.shipping();
+    return (
+      '<div class="cart-suggest">' +
+      '<img class="cart-suggest__image" src="' + u.path(v.image) + '" alt="" width="96" height="120" loading="lazy">' +
+      '<div class="cart-suggest__body">' +
+      '<p class="cart-suggest__title">5つの香りも試してみませんか？</p>' +
+      '<p class="cart-suggest__text">' + v.label + "（5包）" + u.yen(v.price) + "。" +
+      (ship > 0 ? "一緒にご注文いただくと、ご注文全体の送料（" + u.yen(ship) + "）が無料になります。" : "送料無料でお届けします。") + "</p>" +
+      '<button class="button button--ghost button--small" type="button" data-add-trial="' + v.sku + '">カートに追加</button>' +
+      "</div></div>"
+    );
+  }
+
   function renderCart() {
     const view = document.querySelector("[data-cart-view]");
     if (!view) return;
@@ -112,7 +130,7 @@
     }
     view.innerHTML =
       '<div class="cart-layout">' +
-      '<ul role="list">' + items.map(function (i) { return itemRow(i, true); }).join("") + "</ul>" +
+      '<div class="cart-main"><ul role="list">' + items.map(function (i) { return itemRow(i, true); }).join("") + "</ul>" + trialSuggestHTML(items) + "</div>" +
       summaryHTML('<a class="button button--block" href="' + u.path("html/checkout.html") + '">ご注文手続きへ</a>' +
         '<a class="text-link" style="margin-top:1rem" href="' + u.path("html/products/index.html") + '">お買い物を続ける</a>') +
       "</div>";
@@ -124,6 +142,7 @@
     view.addEventListener("click", function (e) {
       const btn = e.target.closest("button");
       if (!btn) return;
+      if (btn.dataset.addTrial) { cart.add(btn.dataset.addTrial, 1); renderCart(); u.toast("お試しセットをカートに追加しました"); return; }
       if (btn.dataset.remove) { cart.remove(btn.dataset.remove); renderCart(); u.toast("商品を削除しました"); return; }
       if (btn.dataset.qty) {
         const box = btn.closest(".qty");

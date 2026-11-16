@@ -8,10 +8,11 @@
   --color-main-light: #C9D6C5;
   --color-sub: #F6F2EA;           /* アイボリー */
   --color-sub-deep: #ECE5D8;
+  --color-main-text: #5F7B60;     /* 文字に使うセージ。メイン色（#8FA68E）は文字には薄すぎるため（白いカードの上で 4.6:1） */
   --color-button: #4F6B57;        /* ディープフォレスト */
   --color-button-hover: #3E5745;
   --color-text: #3D3A36;
-  --color-text-soft: #6E6A63;
+  --color-text-soft: #65615A;     /* 補足の文字。色付きの背景（--color-sub-deep）の上でも読みやすさの基準 4.5:1 を満たす濃さ */
   --color-white: #FFFDF9;
   --color-line: #DCD4C6;
   --color-line-soft: #EAE3D6;     /* カードの縁取りなど、ごく控えめな線 */

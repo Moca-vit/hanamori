@@ -56,3 +56,18 @@
 .complete { text-align: center; padding: var(--space-xl) 0; }
 .complete__mark { width: 72px; height: 72px; margin: 0 auto var(--space-md); color: var(--color-main); }
 .complete__number { margin-top: var(--space-sm); font-family: var(--font-accent); font-size: var(--fs-xl); color: var(--color-button); }
+
+/* カートでのお試しセットの提案（cart.js の trialSuggestHTML）：商品一覧の下に控えめに */
+.cart-suggest {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: var(--space-sm);
+  align-items: start;
+  margin-top: var(--space-md);
+  padding: var(--space-sm);
+  background: var(--color-sub-deep);
+  border-radius: var(--radius-card);
+}
+.cart-suggest__image { width: 72px; height: 90px; object-fit: cover; border-radius: var(--radius-card); background: var(--bg-product); }
+.cart-suggest__title { font-family: var(--font-heading); font-size: var(--fs-sm); }
+.cart-suggest__text { margin: 0.3em 0 var(--space-xs); font-size: var(--fs-xs); line-height: 1.8; color: var(--color-text-soft); }

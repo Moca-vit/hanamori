@@ -88,6 +88,8 @@
   0%, 100% { transform: translateY(0); }
   50%      { transform: translateY(var(--float-lift)); }
 }
+/* スタイリング写真（台に置いた写真）は、写真ごと浮くと不自然なので、浮遊も影もつけない */
+.product-gallery__main img[src*="-styling"] { animation: none; filter: none; }
 @media (prefers-reduced-motion: reduce) {
   .product-gallery__main img { animation: none; }
 }
@@ -107,7 +109,7 @@
 .product-gallery__thumbs button[aria-current="true"] { opacity: 1; outline: 1px solid var(--color-button); }
 .product-gallery__thumbs img { width: 100%; height: 100%; object-fit: cover; }
 
-.product-info__series { font-family: var(--font-accent); font-style: italic; font-size: var(--fs-xl); color: var(--color-main); }
+.product-info__series { font-family: var(--font-accent); font-style: italic; font-size: var(--fs-xl); color: var(--color-main-text); }
 .product-info h1 { font-size: var(--fs-display); line-height: 1.4; }
 .product-info__notes { margin-top: var(--space-xs); font-size: var(--fs-sm); color: var(--color-text-soft); }
 .product-info__desc { margin-top: var(--space-md); }

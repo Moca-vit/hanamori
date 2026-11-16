@@ -29,7 +29,7 @@
   .product-card:hover .product-card__image img { transform: none; }
 }
 .product-card__body { display: flex; flex-direction: column; gap: 0.5em; padding: var(--space-card-x); flex: 1; }
-.product-card__series { font-family: var(--font-accent); font-style: italic; color: var(--color-main); }
+.product-card__series { font-family: var(--font-accent); font-style: italic; color: var(--color-main-text); }
 /* 「セ／ット」のように単語の途中で折り返さない（区切りは空白と記号の位置だけ） */
 .product-card__title { margin-top: -0.3em; font-size: var(--fs-subheading); word-break: auto-phrase; line-break: strict; }
 .product-card__notes { font-size: var(--fs-xs); color: var(--color-text-soft); }
@@ -56,7 +56,7 @@
   border-radius: var(--radius-card);
   text-align: center;
 }
-.feature-card .feature-card__num { font-family: var(--font-accent); font-size: var(--fs-2xl); color: var(--color-main); line-height: 1; }
+.feature-card .feature-card__num { font-family: var(--font-accent); font-size: var(--fs-2xl); color: var(--color-main-text); line-height: 1; }
 /* 番号の代わりに英字の小見出しを置く場合 */
 .feature-card .feature-card__label { font-style: italic; font-size: var(--fs-base); letter-spacing: 0.12em; color: var(--color-button); line-height: 1.2; }
 /* 見出しの下に短い線を引いて、ラベル・見出し・本文の区切りを静かに見せる */

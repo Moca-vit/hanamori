@@ -48,7 +48,7 @@
     var(--color-sub);
   overflow: hidden;
 }
-.page-hero .en { display: block; font-size: var(--fs-xl); color: var(--color-main); }
+.page-hero .en { display: block; font-size: var(--fs-xl); color: var(--color-main-text); }
 .page-hero h1 { font-size: var(--fs-display); line-height: 1.5; }
 .page-hero p { margin-top: var(--space-sm); color: var(--color-text-soft); }
 

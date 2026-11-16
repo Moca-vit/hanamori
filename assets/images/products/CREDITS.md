@@ -17,6 +17,6 @@
 ## 以前のイラスト（*.svg）
 - 使っていないが残してある。戻すときは js/data/products.js の `ext` を ".svg" にする
 
-## スタイリング写真（*-scene.webp）
+## スタイリング写真（*-styling.webp）
 各香りのシャンプー・トリートメント・入浴剤の切り抜きを、セージ色の台の写真に合成したもの（800×1000）。
 - 背景：Unsplash の無料写真（Unsplash License） https://images.unsplash.com/photo-1653398615646-c228b88e4ad4

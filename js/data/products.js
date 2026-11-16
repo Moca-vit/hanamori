@@ -94,8 +94,8 @@ window.HANAMORI = window.HANAMORI || {};
         image: "assets/images/products/" + s.id + "-" + item.image + ext
       };
     });
-    // scene：セージ色の台に3品を並べたスタイリング写真（tools/make-scenes.py で合成）
-    s.images = ["shampoo", "treatment", "bath", "set", "scene"].map(function (k) {
+    // styling：セージ色の台に3品を並べたスタイリング写真（tools/make-scenes.py で合成）
+    s.images = ["shampoo", "treatment", "bath", "set", "styling"].map(function (k) {
       return "assets/images/products/" + s.id + "-" + k + ext;
     });
     s.url = "html/products/" + s.id + ".html";
