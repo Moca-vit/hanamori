@@ -16,6 +16,12 @@
     { key: "set", label: "セット" }
   ];
 
+  // 商品名の改行位置を固定する：「＋」のあとだけで折り返し、それ以外の部分は1かたまりにする。
+  // ホバーのきらめき（文字をグラデーションにする演出）でブラウザが折り返しを計算し直し、改行位置が変わるのを防ぐ
+  function fixedLabel(label) {
+    return label.split(/(?<=＋)/).map(function (part) { return '<span class="u-nowrap">' + part + "</span>"; }).join("");
+  }
+
   // group：種類の絞り込みタブでどこに入るか（お試しセットは「薬用入浴剤」に入れる）
   function card(series, variant, group) {
     return (
@@ -23,7 +29,7 @@
       '<div class="product-card__image"><img src="' + u.path(variant.image) + '" alt="' + series.name + " " + variant.label + '" width="400" height="500" loading="lazy"></div>' +
       '<div class="product-card__body">' +
       '<p class="product-card__series">' + series.name + "</p>" +
-      '<h3 class="product-card__title"><span class="sparkle" data-sparkle>' + variant.label + "</span></h3>" +
+      '<h3 class="product-card__title"><span class="sparkle" data-sparkle>' + fixedLabel(variant.label) + "</span></h3>" +
       '<p class="product-card__notes">' + series.notes + "</p>" +
       '<p class="product-card__price">' + u.yen(variant.price) + '<small>（税込）／' + variant.sub + "</small></p>" +
       "</div></a>"
@@ -103,6 +109,8 @@
           '<li class="mood-list__item reveal" data-delay="' + (i % 4) + '">' +
           '<a class="mood-card" href="' + u.path(s.url) + '" style="--scent-color:' + s.color + '">' +
           '<span class="mood-card__media"><img src="' + u.path(s.moodImage) + '" alt="" width="600" height="750" loading="lazy" decoding="async"></span>' +
+          // PC で何もしていないときに見せる小さな札（気分と名前）。読み上げは下の本文と重なるので隠す
+          '<span class="mood-card__label" aria-hidden="true"><span class="mood-card__night">' + s.night + '</span><span class="mood-card__name">' + s.name + "</span></span>" +
           '<span class="mood-card__body">' +
           '<span class="mood-card__night">' + s.night + "</span>" +
           '<span class="mood-card__name">' + s.name + "</span>" +

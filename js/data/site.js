@@ -28,6 +28,7 @@ HANAMORI.site = {
   // ヘッダー・メニューに表示するリンク（path はサイトのルートからの相対パス）
   nav: [
     { label: "コンセプト", en: "Concept", path: "html/concept.html" },
+    { label: "お試しセット", en: "Trial Set", path: "html/products/trial-set.html" },   // 主役のゴール。ボタンではなく、ほかの項目と同じ文字リンクで常に置く
     { label: "商品一覧", en: "Products", path: "html/products/index.html" },
     { label: "成分とこだわり", en: "Ingredients", path: "html/ingredients.html" },
     { label: "バスタイムの過ごし方", en: "Ritual", path: "html/how-to.html" },
@@ -38,6 +39,7 @@ HANAMORI.site = {
   footerNav: [
     { label: "トップ", path: "index.html" },
     { label: "コンセプト", path: "html/concept.html" },
+    { label: "お試しセット", path: "html/products/trial-set.html" },
     { label: "商品一覧", path: "html/products/index.html" },
     { label: "成分とこだわり", path: "html/ingredients.html" },
     { label: "バスタイムの過ごし方", path: "html/how-to.html" },

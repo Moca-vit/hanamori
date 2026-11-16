@@ -311,73 +311,141 @@ main .text-link { font-size: var(--fs-xs); letter-spacing: 0.16em; }
 }
 
 /* ---- 今夜はどんな気分？（香りを気分で選ぶカード。product.js の renderScents） ---- */
-/* スマホ：指で横にめくるカード。次のカードが少し見えるようにして、めくれることを伝える。説明は最初から見せる */
+/* スマホ・タブレット：縦に並ぶ横長のカード。左に香りの色の輪をつけた丸い写真、右に気分・名前・説明。
+   縦にスクロールするだけで5つを見比べられる（横にめくる形は、残りのカードに気づかれにくく使いづらかったため） */
 ul.mood-list {   /* reset.css の ul[role="list"] { padding: 0 } より強くするため ul を付ける */
-  display: flex;
+  display: grid;
   gap: var(--space-sm);
-  margin-inline: calc(var(--gutter) * -1);
-  padding: var(--space-xs) var(--gutter) var(--space-sm);
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  scroll-padding-inline: var(--gutter);
-  overscroll-behavior-x: contain;
-  scrollbar-width: thin;
+  padding: 0;
 }
-.mood-list__item { flex: 0 0 min(70%, 280px); scroll-snap-align: start; }
+@media (min-width: 640px) { ul.mood-list { grid-template-columns: repeat(2, 1fr); } }
 .mood-card {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 84px 1fr;
+  gap: var(--space-sm);
+  align-items: center;
   height: 100%;
-  overflow: hidden;
+  padding: var(--space-sm);
   background: var(--color-white);
   border: 1px solid var(--color-line-soft);
   border-radius: var(--radius-card);
   color: var(--color-text);
   text-align: left;
 }
-.mood-card__media { display: block; aspect-ratio: 1; overflow: hidden; background: var(--scent-color); }
+.mood-card__media {
+  display: block;
+  width: 84px;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 50%;
+  background: var(--scent-color);
+  box-shadow: 0 0 0 3px var(--color-white), 0 0 0 4px var(--scent-color);   /* 香りの色の細い輪 */
+}
 .mood-card__media img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s var(--ease-soft); }
-.mood-card__body { display: flex; flex-direction: column; gap: 0.35em; padding: var(--space-sm) var(--space-sm) var(--space-md); }
+.mood-card__body { display: flex; flex-direction: column; gap: 0.3em; }
 .mood-card__night { font-family: var(--font-heading); font-size: var(--fs-sm); line-height: 1.6; word-break: auto-phrase; line-break: strict; }
 .mood-card__name { font-family: var(--font-accent); font-style: italic; font-size: var(--fs-subheading); color: var(--color-button); }
 .mood-card__more-inner { display: flex; flex-direction: column; gap: 0.35em; }
 .mood-card__desc { font-size: var(--fs-sm); line-height: 1.7; word-break: auto-phrase; line-break: strict; }
 .mood-card__notes { font-size: var(--fs-xs); color: var(--color-text-soft); }
-.mood-card__go { margin-top: 0.4em; font-size: var(--fs-xs); letter-spacing: 0.08em; color: var(--color-button); }
+.mood-card__go { margin-top: 0.2em; font-size: var(--fs-xs); letter-spacing: 0.08em; color: var(--color-button); }
 
-/* PC：5枚を横に並べる */
-@media (min-width: 960px) {
-  ul.mood-list { display: grid; grid-template-columns: repeat(var(--count, 5), 1fr); margin-inline: 0; padding: 0; overflow: visible; }
-  .mood-list__item { flex: none; }
-}
-/* PC でカーソルが使えるとき：写真の上に気分と名前を重ね、乗せると説明が下から浮かび上がる */
+/* PC（カーソルが使える 960px 以上）：5枚を横に並べ、写真を大きく見せる */
 @media (min-width: 960px) and (hover: hover) {
-  .mood-card { position: relative; border: 0; background: var(--scent-color); }
-  .mood-card__media { aspect-ratio: 3 / 4.4; }
+  ul.mood-list { grid-template-columns: repeat(var(--count, 5), 1fr); }
+}
+/* 札（気分と名前）は PC でカーソルが使えるときだけ使う */
+.mood-card__label { display: none; }
+
+/* PC でカーソルが使えるとき：
+   ふだんは写真の下に、高さをそろえた明るいすりガラスの札（気分と名前）を置く（5枚の札の上端がそろう）。
+   カーソルを乗せると、写真に波紋が広がり、写真全体にすりガラスがふわっと広がって、文字が水面から浮かび上がるように現れる */
+@media (min-width: 960px) and (hover: hover) {
+  .mood-card { position: relative; display: block; padding: 0; overflow: hidden; border: 0; background: var(--scent-color); }
+  .mood-card__media { position: relative; width: auto; aspect-ratio: 3 / 4.4; border-radius: 0; box-shadow: none; }
+  /* 波紋：中心から輪が広がって消える（乗せたときに1回） */
+  .mood-card__media::after {
+    content: "";
+    position: absolute;
+    left: 50%; top: 50%;
+    width: 140%; aspect-ratio: 1;
+    border-radius: 50%;
+    background: repeating-radial-gradient(circle, transparent 0 18px, color-mix(in srgb, var(--color-white) 28%, transparent) 19px 21px, transparent 22px 40px);
+    transform: translate(-50%, -50%) scale(0.2);
+    opacity: 0;
+    pointer-events: none;
+  }
+  .mood-card:hover .mood-card__media::after,
+  .mood-card:focus-visible .mood-card__media::after { animation: mood-ripple 1.8s var(--ease-soft) forwards; }
+
+  /* 明るいすりガラス：乳白色のガラスを香りのイメージカラーでほのかに（22%）染め、文字は濃い色にする
+     （香りの色に白い文字だと、淡い色の香りで読めなくなるため。濃さ84%で写真全体に重ねても全カード 4.5:1 以上） */
+  .mood-card__label,
   .mood-card__body {
     position: absolute;
+    color: var(--color-text);
+    background: color-mix(in srgb, color-mix(in srgb, var(--color-white) 78%, var(--scent-color)) 84%, transparent);
+    -webkit-backdrop-filter: blur(14px) saturate(1.1);
+    backdrop-filter: blur(14px) saturate(1.1);
+  }
+  /* 札：高さを固定し、中身は上にそろえる（気分の一言が1行でも2行でも、札の上端と文字の位置がそろう） */
+  .mood-card__label {
     inset: auto 0 0;
-    padding: var(--space-lg) var(--space-sm) var(--space-sm);
-    color: var(--color-white);
-    background: linear-gradient(to top, var(--color-photo-shade) 0%, var(--color-photo-shade) 55%, transparent 100%);
-    text-shadow: 0 1px 8px var(--color-photo-shade);
+    display: flex;
+    flex-direction: column;
+    gap: 0.35em;
+    height: 7.6em;
+    padding: var(--space-sm);
+    border-top: 1px solid color-mix(in srgb, var(--color-white) 60%, transparent);
+    transition: opacity 0.6s var(--ease-soft);
   }
-  .mood-card__name, .mood-card__notes, .mood-card__go { color: var(--color-white); }
-  .mood-card__more {
-    display: grid;
-    grid-template-rows: 0fr;
+  /* 気分の一言は2行分の高さを取り、1行の香りでも名前の位置がそろうようにする */
+  .mood-card__label .mood-card__night { min-height: 3.2em; }
+  /* 本文：写真全体を覆うすりガラス。ふだんは透明で、乗せるとふわっと現れる */
+  .mood-card__body {
+    inset: 0;
+    justify-content: center;
+    padding: var(--space-md) var(--space-sm);
     opacity: 0;
-    transition: grid-template-rows 0.6s var(--ease-soft), opacity 0.6s var(--ease-soft);
+    transition: opacity 0.8s var(--ease-soft);
   }
-  .mood-card__more-inner { min-height: 0; overflow: hidden; padding-top: 0.35em; }
-  .mood-card:hover .mood-card__more,
-  .mood-card:focus-visible .mood-card__more { grid-template-rows: 1fr; opacity: 1; }
+  .mood-card__name, .mood-card__go { color: var(--color-on-glass-accent); }
+  .mood-card__notes { color: var(--color-on-glass-soft); }
+  .mood-card__more { display: block; }
+  .mood-card:hover .mood-card__label,
+  .mood-card:focus-visible .mood-card__label { opacity: 0; }
+  .mood-card:hover .mood-card__body,
+  .mood-card:focus-visible .mood-card__body { opacity: 1; }
+  /* 文字は1行ずつ、水の中から浮かび上がる（にじみ → ゆらぎ → くっきり） */
+  .mood-card__body > *, .mood-card__more-inner > * { opacity: 0; }
+  .mood-card:hover .mood-card__body > :not(.mood-card__more),
+  .mood-card:hover .mood-card__more-inner > *,
+  .mood-card:focus-visible .mood-card__body > :not(.mood-card__more),
+  .mood-card:focus-visible .mood-card__more-inner > * { animation: mood-surface 1.3s var(--ease-soft) both; }
+  .mood-card__body > .mood-card__more { opacity: 1; }
+  .mood-card:hover .mood-card__name { animation-delay: 0.1s; }
+  .mood-card:hover .mood-card__desc { animation-delay: 0.2s; }
+  .mood-card:hover .mood-card__notes { animation-delay: 0.3s; }
+  .mood-card:hover .mood-card__go { animation-delay: 0.4s; }
   .mood-card:hover .mood-card__media img,
   .mood-card:focus-visible .mood-card__media img { transform: scale(1.06); }
 }
+@keyframes mood-ripple {
+  0%   { opacity: 0; transform: translate(-50%, -50%) scale(0.2); }
+  25%  { opacity: 1; }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(1.1); }
+}
+@keyframes mood-surface {
+  0%   { opacity: 0; transform: translateY(14px) skewX(5deg) scaleY(0.9); filter: blur(5px); }
+  45%  { opacity: 0.8; transform: translateY(3px) skewX(-3deg) scaleY(1.02); filter: blur(1.5px); }
+  75%  { transform: translateY(-1px) skewX(1deg); filter: blur(0.3px); }
+  100% { opacity: 1; transform: none; filter: none; }
+}
 @media (prefers-reduced-motion: reduce) {
-  .mood-card__media img, .mood-card__more { transition: none; }
+  .mood-card__media img, .mood-card__label, .mood-card__body { transition: none; }
   .mood-card:hover .mood-card__media img { transform: none; }
+  .mood-card .mood-card__media::after { display: none; }
+  .mood-card .mood-card__body > *, .mood-card .mood-card__more-inner > * { animation: none !important; opacity: 1; }
 }
 
 /* ---- バスタイムの過ごし方 ---- */
