@@ -71,8 +71,6 @@
 /* 答えの書き出しを、質問の文字の書き出しと同じ線にそろえる */
 .faq-item__answer { padding: 0 0 var(--space-md) var(--faq-indent); font-size: var(--fs-sm); color: var(--color-text-soft); }
 .faq-item__answer p + p { margin-top: var(--space-xs); }
-/* 答えのすぐ下に、その答えの行動（お試し）を置く。答えの書き出しと同じ線にそろえる */
-
 /* 表 */
 .info-table th, .info-table td {
   padding: var(--space-sm);
@@ -82,6 +80,12 @@
   font-size: var(--fs-sm);
 }
 .info-table th { width: 32%; font-weight: 500; color: var(--color-button); background: rgba(201, 214, 197, 0.2); }
+/* スマホ（〜479px）では、項目名の下に内容を置く（2列だと内容の列が細くなり、言葉の途中で折れたり画面からはみ出したりするため） */
+@media (max-width: 479px) {
+  .info-table th, .info-table td { display: block; width: auto; }
+  .info-table th { border-bottom: 0; padding-bottom: 0.2em; }
+  .info-table td { padding-top: 0.2em; }
+}
 
 /* トースト通知 */
 .toast {

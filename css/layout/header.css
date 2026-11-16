@@ -108,7 +108,8 @@
 .drawer__list .en { display: block; font-size: var(--fs-sm); color: var(--color-button); }
 .drawer .sns-links { margin-top: var(--space-lg); }
 
-@media (min-width: 960px) {
+/* メニューを横に並べるのは 1024px 以上（6項目が1行に収まる幅）。それより狭いときはメニューボタン（☰）で開く */
+@media (min-width: 1024px) {
   .site-nav { display: block; }
   .menu-toggle, .drawer { display: none; }
 }

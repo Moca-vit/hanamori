@@ -25,6 +25,11 @@ h2 { font-size: var(--fs-heading); }
 h3 { font-size: var(--fs-subheading); }
 
 p { text-wrap: pretty; line-break: strict; }  /* 本文の最後の行に1〜2文字だけ残さない／句読点を行頭に置かない */
+/* 本文も文節で折り返す（「ころに／は」「生ま／れました」のような言葉の途中での改行を防ぐ）。
+   収まらないほど長い文節だけは、はみ出さないよう途中で折り返す */
+p, li, dd, dt, summary, figcaption, blockquote, td, th, label { word-break: auto-phrase; overflow-wrap: break-word; }
+/* 数字と単位・カタカナの言葉・短いかっこ書きを1かたまりにする（utils.js の keepChunks が付ける） */
+.u-keep { white-space: nowrap; }
 
 /* 【改行のルール】word-break: keep-all ＋ overflow-wrap: anywhere の組み合わせは使わない。
    日本語は空白がないため文全体が1語あつかいになり、収まらないと「、」や1文字だけが次の行に送られる。
