@@ -6,6 +6,9 @@
 window.HANAMORI = window.HANAMORI || {};
 
 (function () {
+  // 商品画像の版（作り直したら上げる）。2026-11-17：Flower Field の入浴剤の袋を作り直し
+  const IMG_V = "?v=2026111701";
+
   // 全シリーズ共通の商品構成（香りごとに同じラインナップ）
   const lineup = [
     { type: "shampoo",   label: "シャンプー",           sub: "300mL",            price: 3520, image: "shampoo" },
@@ -83,7 +86,8 @@ window.HANAMORI = window.HANAMORI || {};
   // シリーズ × ラインナップ から SKU（購入単位）を作る
   series.forEach(function (s) {
     // 商品画像は全シリーズともモック写真（WebP）。以前のイラストに戻すときは ".svg" にする
-    const ext = ".webp";
+    // 末尾の ?v= は画像の版。商品画像を同じファイル名で作り直したら日付を上げる（ブラウザに古い画像が残らないように）
+    const ext = ".webp" + IMG_V;
     s.variants = lineup.map(function (item) {
       return {
         sku: s.id + "__" + item.type,
@@ -117,8 +121,8 @@ window.HANAMORI = window.HANAMORI || {};
     colorLight: "#DDE5D6",
     bathOnly: true,
     url: "html/products/trial-set.html",
-    images: ["assets/images/products/trial-set.webp"].concat(series.map(function (s) {
-      return "assets/images/products/" + s.id + "-bath.webp";
+    images: ["assets/images/products/trial-set.webp" + IMG_V].concat(series.map(function (s) {
+      return "assets/images/products/" + s.id + "-bath.webp" + IMG_V;
     }))
   };
   trialSet.variants = [{
@@ -128,7 +132,7 @@ window.HANAMORI = window.HANAMORI || {};
     sub: "40g×5包（5つの香り 各1包）［医薬部外品］送料無料",
     price: 1500,
     freeShipping: true,   // 送料無料（このセットを含む注文は送料がかからない）
-    image: "assets/images/products/trial-set.webp"
+    image: "assets/images/products/trial-set.webp" + IMG_V
   }];
 
   // 薬用入浴剤の効能効果（医薬部外品として表示する内容）
