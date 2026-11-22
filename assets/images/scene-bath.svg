@@ -1,8 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" width="1600" height="1000" preserveAspectRatio="xMidYMid slice">
-  <defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F6F2EA"/><stop offset="1" stop-color="#E5DDCF"/></linearGradient>
-  <radialGradient id="sun" cx="0.72" cy="0.15" r="0.6"><stop offset="0" stop-color="#FFFBEA" stop-opacity=".95"/><stop offset="1" stop-color="#FFFBEA" stop-opacity="0"/></radialGradient></defs>
-  <rect width="1600" height="1000" fill="url(#sky)"/>
-  <ellipse cx="800" cy="760" rx="620" ry="170" fill="#FFFDF9"/><ellipse cx="800" cy="740" rx="560" ry="130" fill="#D7E2D3"/><path d="M560 600 q-40 -90 0 -180 q40 -90 0 -180" stroke="#FFFFFF" stroke-width="18" fill="none" opacity=".55" stroke-linecap="round"/><path d="M680 600 q-40 -90 0 -180 q40 -90 0 -180" stroke="#FFFFFF" stroke-width="18" fill="none" opacity=".55" stroke-linecap="round"/><path d="M800 600 q-40 -90 0 -180 q40 -90 0 -180" stroke="#FFFFFF" stroke-width="18" fill="none" opacity=".55" stroke-linecap="round"/><path d="M920 600 q-40 -90 0 -180 q40 -90 0 -180" stroke="#FFFFFF" stroke-width="18" fill="none" opacity=".55" stroke-linecap="round"/><path d="M1040 600 q-40 -90 0 -180 q40 -90 0 -180" stroke="#FFFFFF" stroke-width="18" fill="none" opacity=".55" stroke-linecap="round"/>
-  <rect width="1600" height="1000" fill="url(#sun)"/>
-  <text x="1570" y="970" font-family="sans-serif" font-size="14" fill="#3D3A36" opacity="0.55" text-anchor="end">仮画像</text>
-</svg>

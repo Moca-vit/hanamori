@@ -26,7 +26,7 @@ js/
   data/site.js          SNS の URL、メニュー、送料
   data/products.js      商品・価格・画像のデータ
   modules/              ヘッダー、演出、カート、フォーム など
-assets/images/          仮画像（SVG）
+assets/                 画像（WebP）・フォント・アイコン・動画
 ```
 
 ## よく触る場所
