@@ -37,7 +37,7 @@ assets/                 画像（WebP）・フォント・アイコン・動画
 | 商品や価格を変える | `js/data/products.js` |
 | SNS の URL を本番に差し替える | `js/data/site.js` |
 | メニューのリンクを増やす | `js/data/site.js` の `nav` / `footerNav` |
-| OGP の URL を差し替える | 各 HTML の `og:url` / `og:image`（現在は example.com） |
+| OGP の URL を差し替える | 各 HTML の `og:url` / `og:image`（現在は https://moca-vit.github.io/hanamori/ ） |
 
 ## ページを追加するとき
 
