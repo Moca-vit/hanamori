@@ -16,10 +16,11 @@
     { key: "set", label: "セット" }
   ];
 
-  // 商品名の改行位置を固定する：「＋」のあとだけで折り返し、それ以外の部分は1かたまりにする。
-  // ホバーのきらめき（文字をグラデーションにする演出）でブラウザが折り返しを計算し直し、改行位置が変わるのを防ぐ
+  // 商品名の行数を固定する：「＋」で区切った部分を必ず1行ずつにする（セットは常に2行、それ以外は1行）。
+  // 画面幅やホバーのきらめき（文字をグラデーションにする演出）で折り返しが変わり、行数やカードの高さが動くのを防ぐ。
+  // カードが狭いときは文字を小さくして1行に収める（card.css の .product-card__title）
   function fixedLabel(label) {
-    return label.split(/(?<=＋)/).map(function (part) { return '<span class="u-nowrap">' + part + "</span>"; }).join("");
+    return label.split(/(?<=＋)/).map(function (part) { return '<span class="product-card__line">' + part + "</span>"; }).join("");
   }
 
   // group：種類の絞り込みタブでどこに入るか（お試しセットは「薬用入浴剤」に入れる）

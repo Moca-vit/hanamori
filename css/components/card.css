@@ -28,10 +28,15 @@
   .product-card__image img { transition: none; }
   .product-card:hover .product-card__image img { transform: none; }
 }
-.product-card__body { display: flex; flex-direction: column; gap: 0.5em; padding: var(--space-card-x); flex: 1; }
+/* container-type：中の文字の大きさをカードの幅に合わせて決められるようにする（下の .product-card__title） */
+.product-card__body { display: flex; flex-direction: column; gap: 0.5em; padding: var(--space-card-x); flex: 1; container-type: inline-size; }
 .product-card__series { font-family: var(--font-accent); font-style: italic; color: var(--color-main-text); }
-/* 「セ／ット」のように単語の途中で折り返さない（区切りは空白と記号の位置だけ） */
-.product-card__title { margin-top: -0.3em; font-size: var(--fs-subheading); word-break: auto-phrase; line-break: strict; }
+/* 商品名は「＋」で区切った部分を1行ずつ表示し、行の途中では折り返さない（行数は product.js の fixedLabel で固定）。
+   いちばん長い行「トリートメント セット」（約10.5文字）が収まるよう、カードが狭いときだけ文字を小さくする。
+   100cqi = カードの文字の入る幅。11 で割ると、11文字分がちょうど1行に入る大きさになる */
+.product-card__title { margin-top: -0.3em; font-size: var(--fs-subheading); font-size: min(var(--fs-subheading), 100cqi / 11); }
+.product-card__title .sparkle { display: block; }
+.product-card__line { display: block; white-space: nowrap; }
 .product-card__notes { font-size: var(--fs-xs); color: var(--color-text-soft); }
 /* 価格は商品の説明とは別のまとまり。少し離して細い線で区切る */
 .product-card__price { margin-top: auto; padding-top: var(--space-sm); border-top: 1px solid var(--color-line-soft); font-size: var(--fs-sm); }
