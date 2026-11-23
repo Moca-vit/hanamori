@@ -1,13 +1,7 @@
-# HANAMORI（ポートフォリオ用デモサイト）
+# HANAMORI（デザイン見本）
 
 花畑と森林浴をテーマにした、架空のバスケアブランドのWebサイトです。
 HTML・CSS・JS のみで作成しています（フレームワーク・ビルド不要）。
-
-## 見かた
-
-VS Code でこのフォルダを開き、拡張機能「Live Server」をインストールして、右下の「Go Live」を押すと表示されます。
-ファイルを保存するたびにブラウザが自動で更新されます。`index.html` をダブルクリックして開くこともできます。
-（Google Fonts の読み込みにはインターネット接続が必要です）
 
 ## フォルダ構成
 
@@ -28,25 +22,6 @@ js/
   modules/              ヘッダー、演出、カート、フォーム など
 assets/                 画像（WebP）・フォント・アイコン・動画
 ```
-
-## よく触る場所
-
-| やりたいこと | 編集するファイル |
-| --- | --- |
-| 色・フォントを変える | `css/base/variables.css` |
-| 商品や価格を変える | `js/data/products.js` |
-| SNS の URL を本番に差し替える | `js/data/site.js` |
-| メニューのリンクを増やす | `js/data/site.js` の `nav` / `footerNav` |
-| OGP の URL を差し替える | 各 HTML の `og:url` / `og:image`（現在は https://moca-vit.github.io/hanamori/ ） |
-
-## ページを追加するとき
-
-1. 既存の下層ページ（例：`html/faq.html`）をコピーする
-2. `<title>`・`description`・本文を書き換える
-3. 必要ならメニューに追加（`js/data/site.js`）
-
-ヘッダー・フッターは JS で自動的に差し込まれるため、各ページに書く必要はありません。
-`<body data-root="../">` は、そのページからサイトのルートまでの相対パスです（階層に合わせる）。
 
 ## 演出
 
